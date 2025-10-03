@@ -1,7 +1,6 @@
 FROM node:lts-buster
 
-RUN apt-get update
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
     ffmpeg \
     imagemagick \
     webp \
@@ -15,4 +14,3 @@ COPY . .
 
 EXPOSE 5000
 CMD ["npm", "start"]
-
