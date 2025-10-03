@@ -2,7 +2,7 @@
     "name": "pair session",
     "description": "Web Session Generator",
     "logo": "https://files.catbox.moe/gqsf1j.jpg",
-    "repository": "https://github.com/pugsly526/Sessions-",
+    "repository": "https://github.com/pugsly526/Session",
     "keywords": ["Beamer","Sang Lee"],
     "success_url": "/", 
     "buildpacks": [{ "url": "https://github.com/heroku/heroku-buildpack-nodejs#latest" } ],
