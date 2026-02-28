@@ -11,7 +11,7 @@
   "author": "Sang Lee",
   "license": "GPL-3.0",
   "dependencies": {
-    "@whiskeysockets/baileys": "^6.7.0",
+    "@whiskeysockets/baileys": "npm:gifted-baileys@2.0.0",
     "express": "^4.18.1",
     "pino": "^8.1.0",
     "megajs": "1.1.7",
