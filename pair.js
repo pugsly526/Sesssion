@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
             saveCreds
         } = await useMultiFileAuthState('./temp/' + id);
         try {
-var items = ["Safari"];
+var items = ["Edge"];
 function selectRandomItem(array) {
   var randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
