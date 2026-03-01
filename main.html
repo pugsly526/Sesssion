@@ -1,437 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<meta name="theme-color" content="#0f0c08" />
-<title>PEAKY-BLINDER-MD | WHATSAPP BOT</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=0.8, user-scalable=no" />
+<title>𝙋𝙀𝘼𝙆𝙔 𝘽𝙇𝙄𝙉𝘿𝙀𝙍 𝙈𝘿</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/a2e0da6e4c.js" crossorigin="anonymous"></script>
 
 <style>
-
-/* ===== LUXURY GOLD THEME ===== */
-
-:root{
-  --gold:#d4af37;
-  --gold-light:#f5d77a;
-  --gold-dark:#9c7c1a;
-  --text:#f8f5ef;
-  --gray:#cfc6b5;
-  --card-bg:rgba(255,215,130,0.05);
-  --shadow:0 20px 50px rgba(0,0,0,0.6);
+:root {
+  --gold: #d4af37;
+  --dark-gold: #b8860b;
+  --red: #8b0000;
+  --deep-red: #5c0000;
+  --black: #0f0f0f;
+  --glass: rgba(255,255,255,0.05);
 }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-  min-height:100vh;
-  color:var(--text);
-  background: linear-gradient(
-    135deg,
-    #0f0c08 0%,
-    #1a140d 40%,
-    #2a1f10 70%,
-    #1a1206 100%
-  );
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #000000, #5c0000, #d4af37);
+  background-size: 400% 400%;
+  animation: gradientMove 12s ease infinite;
+  color: var(--gold);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* ===== NAVBAR ===== */
-
-.navbar{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  padding:18px 30px;
-  text-align:center;
-  background:rgba(0,0,0,0.4);
-  backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(212,175,55,0.2);
-  z-index:1000;
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-.logo-text{
-  font-weight:800;
-  font-size:1.2rem;
-  letter-spacing:2px;
-  background:linear-gradient(90deg,var(--gold),var(--gold-light));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
+.main-content {
+  width: 95%;
+  max-width: 700px;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 0 40px rgba(212,175,55,0.4);
+  text-align: center;
 }
 
-/* ===== HERO ===== */
-
-.hero{
-  padding:140px 20px 60px;
-  text-align:center;
+.logo img {
+  width: 90px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px var(--gold);
 }
 
-.hero-title{
-  font-size:2.8rem;
-  font-weight:800;
-  background:linear-gradient(90deg,var(--gold-light),var(--gold));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  margin-bottom:20px;
+h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.8rem;
+  margin-bottom: 25px;
+  color: var(--gold);
+  text-shadow: 0 0 20px rgba(212,175,55,0.8);
 }
 
-.hero-subtitle{
-  max-width:700px;
-  margin:auto;
-  color:var(--gray);
-  line-height:1.7;
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  font-weight: 500;
+  color: #ffffff;
+  border-top: 1px solid var(--gold);
+  border-bottom: 1px solid var(--gold);
+  padding: 10px 0;
 }
 
-/* ===== PAIR CARD SECTION ===== */
-
-.pair-section{
-  display:flex;
-  justify-content:center;
-  padding:40px 20px 90px;
+.section {
+  margin-bottom: 35px;
+  padding: 25px;
+  border-radius: 15px;
+  border: 1px solid var(--gold);
+  background: var(--glass);
 }
 
-.pair-card{
-  background:var(--card-bg);
-  border:1px solid rgba(212,175,55,0.3);
-  border-radius:22px;
-  padding:50px 40px;
-  max-width:520px;
-  width:100%;
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(20px);
-  text-align:center;
+.section h3 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: var(--gold);
 }
 
-.pair-card h1{
-  font-size:1.7rem;
-  margin-bottom:10px;
-  color:var(--gold-light);
+.btn-grid {
+  display: flex;
+  justify-content: center;
 }
 
-.pair-card p{
-  color:var(--gray);
-  margin-bottom:25px;
+.btn {
+  background: linear-gradient(45deg, var(--red), var(--gold));
+  border: none;
+  padding: 14px 30px;
+  border-radius: 12px;
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 0 20px rgba(212,175,55,0.5);
 }
 
-.pair-card input{
-  width:100%;
-  padding:16px;
-  border-radius:14px;
-  border:1px solid rgba(212,175,55,0.3);
-  background:rgba(0,0,0,0.4);
-  color:#fff;
-  margin-bottom:25px;
-  font-size:1rem;
+.btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 30px rgba(212,175,55,0.8);
 }
 
-.pair-card input:focus{
-  outline:none;
-  border-color:var(--gold);
-  box-shadow:0 0 0 3px rgba(212,175,55,0.25);
+.footer {
+  margin-top: 40px;
+  font-size: 0.95rem;
+  color: #ccc;
 }
 
-.pair-btn{
-  width:100%;
-  padding:16px;
-  border:none;
-  border-radius:16px;
-  background:linear-gradient(135deg,var(--gold-dark),var(--gold));
-  color:#000;
-  font-weight:700;
-  font-size:1.05rem;
-  cursor:pointer;
-  box-shadow:0 12px 30px rgba(212,175,55,0.4);
-  transition:0.3s ease;
+.dev-section .btn {
+  margin: 8px;
 }
-
-.pair-btn:hover{
-  transform:translateY(-3px);
-  background:linear-gradient(135deg,var(--gold),var(--gold-light));
-}
-
-/* ===== CHANNEL BUTTON BELOW CARD ===== */
-
-.channel-btn{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  background:linear-gradient(135deg,var(--gold-dark),var(--gold));
-  color:#000;
-  padding:12px 25px;
-  border-radius:30px;
-  text-decoration:none;
-  font-weight:600;
-  margin-top:25px;
-  box-shadow:0 8px 20px rgba(212,175,55,0.4);
-  transition:all 0.3s ease;
-}
-
-.channel-btn:hover{
-  background:linear-gradient(135deg,var(--gold),var(--gold-light));
-  transform:translateY(-2px);
-}
-
-/* ===== FEATURES ===== */
-
-.features{
-  padding:80px 20px;
-  text-align:center;
-}
-
-.section-title{
-  font-size:2rem;
-  margin-bottom:50px;
-  background:linear-gradient(90deg,var(--gold-light),var(--gold));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-
-.features-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:30px;
-  max-width:1100px;
-  margin:auto;
-}
-
-.feature-card{
-  background:rgba(212,175,55,0.05);
-  border:1px solid rgba(212,175,55,0.25);
-  padding:30px;
-  border-radius:18px;
-}
-
-.feature-card h3{
-  color:var(--gold-light);
-  margin-bottom:10px;
-}
-
-.feature-card p{
-  color:var(--gray);
-}
-
-/* ===== FOOTER ===== */
-
-footer{
-  padding:40px 20px;
-  text-align:center;
-  border-top:1px solid rgba(212,175,55,0.2);
-  background:rgba(0,0,0,0.5);
-}
-
-.copyright{
-  color:var(--gray);
-  font-size:.9rem;
-}
-
-@media(max-width:768px){
-  .hero-title{font-size:2rem;}
-  .pair-card{padding:35px 25px;}
-}
-
 </style>
 </head>
 
 <body>
 
-<nav class="navbar">
-  <div class="logo-text">PEAKY-BLINDER-MD</div>
-</nav>
+<div class="main-content">
 
-<main class="hero">
-  <h1 class="hero-title">Advanced WhatsApp Bot Solution</h1>
-  <p class="hero-subtitle">
-    Powerful automation and integration features with enterprise-level security and reliability.
-  </p>
-</main>
+<div class="logo">
+<img src="https://files.catbox.moe/2857dd.jpg">
+</div>
 
-<section class="pair-section">
-  <div class="pair-card">
-    <h1>PEAKY-BLINDER-MD –PAIRING CODE</h1>
-    <p>Enter your WhatsApp number without the + sign</p>
+<h1>𝙋𝙀𝘼𝙆𝙔 𝘽𝙇𝙄𝙉𝘿𝙀𝙍 𝙈𝘿 𝙋𝙊𝙍𝙏𝘼𝙇</h1>
 
-    <input type="text" placeholder="e.g., 254xxxxxxxxxx" />
-    <button class="pair-btn">GET CODE</button>
-
-    <a href="https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33" target="_blank" class="channel-btn">
-      <i class="fab fa-whatsapp"></i> Channel
-    </a>
+<div class="status-bar">
+  <div id="time"></div>
+  <div id="date"></div>
+  <div id="battery-status">
+    <i class="fas fa-battery-full"></i>
   </div>
-</section>
+</div>
 
-<section class="features">
-  <h2 class="section-title">Key Features</h2>
-  <div class="features-grid">
-    <div class="feature-card">
-      <h3>Secure Pairing</h3>
-      <p>Connect safely using encrypted authentication methods.</p>
-    </div>
-    <div class="feature-card">
-      <h3>Multi-Device</h3>
-      <p>Operate across devices with seamless synchronization.</p>
-    </div>
-    <div class="feature-card">
-      <h3>Premium Support</h3>
-      <p>Dedicated assistance for smooth operation.</p>
-    </div>
+<div class="section">
+  <h3>Get Session ID</h3>
+  <div class="btn-grid">
+    <!-- QR BUTTON REMOVED -->
+    <button class="btn" onclick="window.open('/pair')">Pair Code</button>
   </div>
-</section>
+</div>
 
-<footer>
-  <div class="copyright">
-    © 2026 MR LEE INC — All Rights Reserved
+<div class="section dev-section">
+  <h3>Developer & Community</h3>
+  <div class="btn-grid">
+    <button class="btn" onclick="window.open('https://github.com/Thomas-shelby001')">GitHub</button>
+    <button class="btn" onclick="window.open('https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33')">WhatsApp Channel</button>
   </div>
-</footer>
+</div>
+
+<div class="footer">
+Made with passion & style by Sang Lee <br>
+By Order of the Peaky Blinders 🎩
+</div>
+
+</div>
+
 <script>
-   // Sidebar toggle function
-    function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      sidebar.classList.toggle("show");
-    }
+function updateTime() {
+  const time = new Date();
+  document.getElementById('time').textContent = time.toLocaleTimeString();
+  document.getElementById('date').textContent = time.toLocaleDateString();
+}
 
-    // Preloader hide
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const preloader = document.getElementById("preloader");
-        preloader.style.opacity = "0";
-        setTimeout(() => preloader.style.display = "none", 300);
-      }, 500);
-      
-      // Set current year
-      document.getElementById('year').textContent = new Date().getFullYear();
-      
-      // Create particles
-      createParticles();
+function updateBatteryStatus() {
+  if (navigator.getBattery) {
+    navigator.getBattery().then(function(battery) {
+      let level = Math.round(battery.level * 100) + '%';
+      let charging = battery.charging ? 'Charging' : 'Discharging';
+      document.getElementById('battery-status').textContent = level + ' | ' + charging;
     });
+  }
+}
 
-    // Create animated particles
-    function createParticles() {
-      const particlesContainer = document.getElementById('particles');
-      const particleCount = 30;
-      
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        
-        // Random size between 2px and 6px
-        const size = Math.random() * 4 + 2;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        
-        // Random position
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.top = `${Math.random() * 100}%`;
-        
-        // Random animation delay
-        particle.style.animationDelay = `${Math.random() * 15}s`;
-        
-        // Random animation duration
-        const duration = 10 + Math.random() * 20;
-        particle.style.animationDuration = `${duration}s`;
-        
-        particlesContainer.appendChild(particle);
-      }
-    }
-
-    // Close sidebar when clicking outside
-    document.addEventListener('click', (event) => {
-      const sidebar = document.getElementById('sidebar');
-      const menuBtn = document.querySelector('.menu-btn');
-      const closeBtn = document.querySelector('.close-btn');
-      
-      if (sidebar.classList.contains('show') && 
-          !sidebar.contains(event.target) && 
-          !menuBtn.contains(event.target) &&
-          !closeBtn.contains(event.target)) {
-        sidebar.classList.remove("show");
-      }
-    });
-
-    // Close sidebar when pressing Escape key
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') {
-        const sidebar = document.getElementById("sidebar");
-        if (sidebar.classList.contains("show")) {
-          sidebar.classList.remove("show");
-        }
-      }
-    });
-
-    // Pair code functionality
-    let a = document.getElementById("pair");
-    let b = document.getElementById("submit");
-    let c = document.getElementById("number");
-
-    async function Copy() {
-      let text = document.getElementById("copy").innerText;
-      let obj = document.getElementById("copy");
-      await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
-      obj.innerText = "COPIED";
-      obj.style = "color:var(--accent);font-weight:bold";
-      setTimeout(() => {
-        obj.innerText = text;
-        obj.style = "color:var(--text);font-weight:bold";
-      }, 500);
-    }
-
-    b.addEventListener("click", async (e) => {
-      e.preventDefault();
-      if (!c.value) {
-        a.innerHTML = '<span style="color:var(--accent);font-weight:bold">Enter your WhatsApp number with a country code</span><br><br>';
-      } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
-        a.innerHTML = '<span style="color:#ff6b6b;font-weight:bold">Invalid number format</span><br><br>';
-      } else {
-        const bc = c.value.replace(/[^0-9]/g, "");
-        let bb = "";
-        let bbc = "";
-        const cc = bc.split('');
-        cc.map(a => {
-          bbc += a;
-          if (bbc.length == 3) {
-            bb += " " + a;
-          } else if (bbc.length == 8) {
-            bb += " " + a;
-          } else {
-            bb += a;
-          }
-        });
-        c.type = "text";
-        c.value = "+" + bb;
-        c.style = "color:var(--text);font-size:18px";
-        a.innerHTML = '<span style="color:var(--accent);font-weight:bold">Please wait for some time</span><br><br>';
-        try {
-          let { data } = await axios(`/code?number=${bc}`);
-          let code = data.code || "Service Unavailable";
-          a.innerHTML = '<span id="copy" onclick="Copy()" style="color:var(--accent);font-weight:bold;cursor:pointer;padding:10px 20px;border-radius:8px;background:rgba(0,180,255,0.1);display:inline-block;">CODE: <span style="color:var(--text);font-weight:bold">' + code + '</span></span><br><br><br>';
-        } catch (err) {
-          a.innerHTML = '<span style="color:#ff6b6b;font-weight:bold">Error connecting to server</span><br><br>';
-        }
-      }
-    });
-
-    // Register service worker for PWA
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("/sw.js").catch(err => {
-          console.log("Service Worker registration failed:", err);
-        });
-      });
-    }
-  
+setInterval(updateTime, 1000);
+updateTime();
+updateBatteryStatus();
 </script>
-
-
-
 
 </body>
 </html>
