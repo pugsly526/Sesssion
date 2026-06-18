@@ -106,7 +106,7 @@ Keep only ONE bot active at a time, or swap the credentials between them when sw
                                 externalAdReply: {
                                     title: "BEAMER XMD • Peaky Blinders MD",
                                     body: "Session Generated Successfully",
-                                    thumbnailUrl: "https://i.ibb.co/YBfYFFY3/beamer-1781796163575.jpg",
+                                    thumbnailUrl: "https://files.catbox.moe/cgryqy.jpg",
                                     sourceUrl: "https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33",
                                     mediaType: 1,
                                     renderLargerThumbnail: true,
