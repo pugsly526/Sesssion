@@ -96,7 +96,7 @@ Keep only ONE bot active at a time, or swap the credentials between them when sw
 ▸ Beamer XMD: https://github.com/Thomas-shelby001/BEAMER-XMD
 ━━━━━━━━━━━━━━━━━━━━━━━━
 
-> *DEVELOPED BY PEAKY BLINDERS BEAMER TEAM*
+> *DEVELOPED BY MR LEE*
 > *ONE BOT. ONE CREW. ONE EMPIRE.* 🎩⚡`;
 
                         // 3. Send description with thumbnail – QUOTE the session message (like old code)
