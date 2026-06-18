@@ -106,7 +106,7 @@ Keep only ONE bot active at a time, or swap the credentials between them when sw
                             contextInfo: {
                                 externalAdReply: {
                                     title: "BEAMER XMD • Peaky Blinders MD",
-                                    thumbnailUrl: "YOUR_CATBOX_URL_HERE", // ⚠️ REPLACE WITH YOUR UPLOADED IMAGE
+                                    thumbnailUrl: "https://files.catbox.moe/cgryqy.jpg", // ⚠️ REPLACE WITH YOUR UPLOADED IMAGE
                                     sourceUrl: "https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33",
                                     mediaType: 1,
                                     renderLargerThumbnail: true,
