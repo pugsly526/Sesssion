@@ -77,7 +77,7 @@ router.get('/', async (req, res) => {
                         // ---------- 1. SEND RAW SESSION ID ----------
                         await sock.sendMessage(sock.user.id, { text: sessionId });
 
-                        // ---------- 2. SEND THE DESCRIPTION (PLAIN TEXT - GUARANTEED) ----------
+                        // ---------- 2. SEND THE DESCRIPTION WITH IMAGE ----------
                         const descriptionText = `*🔗 SESSION LINKED — DUAL BOT MODE 🔗*
 
 *POWER. LOYALTY. LEGACY.*
@@ -116,11 +116,23 @@ Keep only ONE bot active at a time, or swap the credentials between them when sw
 ▸ Beamer XMD: https://github.com/Thomas-shelby001/BEAMER-XMD
 ━━━━━━━━━━━━━━━━━━━━━━━━
 
-> *DEVELOPED BY MR LEE*
+> *DEVELOPED BY PEAKY BLINDERS BEAMER TEAM*
 > *ONE BOT. ONE CREW. ONE EMPIRE.* 🎩⚡`;
 
-                        // Send the description as plain text (ALWAYS WORKS)
-                        await sock.sendMessage(sock.user.id, { text: descriptionText });
+                        // Send the description with the image as a thumbnail
+                        await sock.sendMessage(sock.user.id, {
+                            text: descriptionText,
+                            contextInfo: {
+                                externalAdReply: {
+                                    title: "BEAMER XMD • Peaky Blinders MD",
+                                    body: "Session Generated Successfully",
+                                    thumbnailUrl: "https://i.ibb.co/YBfYFFY3/beamer-1781796163575.jpg",
+                                    sourceUrl: "https://github.com/Thomas-shelby001/BEAMER-XMD",
+                                    mediaType: 1,
+                                    renderLargerThumbnail: true
+                                }
+                            }
+                        });
 
                         // ---------- 3. TRY TO SEND THE COPY BUTTON (BONUS) ----------
                         if (sendButtons) {
@@ -140,11 +152,9 @@ Keep only ONE bot active at a time, or swap the credentials between them when sw
                                 });
                             } catch (buttonError) {
                                 console.log("Button error (normal):", buttonError.message);
-                                // Fallback: send manual copy instruction
                                 await sock.sendMessage(sock.user.id, { text: `📋 *Copy manually:*\n${sessionId}` });
                             }
                         } else {
-                            // kango not installed, send manual instruction
                             await sock.sendMessage(sock.user.id, { text: `📋 *Copy manually:*\n${sessionId}` });
                         }
 
