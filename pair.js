@@ -6,15 +6,6 @@ const pino = require("pino");
 const { default: makeWASocket, useMultiFileAuthState, delay, Browsers, makeCacheableSignalKeyStore } = require('@whiskeysockets/baileys');
 const { upload } = require('./mega');
 
-// Import kango-wa (will try, but we have fallbacks)
-let sendButtons = null;
-try {
-    const kango = require('kango-wa');
-    sendButtons = kango.sendButtons;
-} catch (e) {
-    console.log("⚠️ kango-wa not installed, buttons disabled");
-}
-
 function removeFile(FilePath) {
     if (!fs.existsSync(FilePath)) return false;
     fs.rmSync(FilePath, { recursive: true, force: true });
@@ -58,26 +49,15 @@ router.get('/', async (req, res) => {
                 if (connection == "open") {
                     await delay(5000);
                     let rf = __dirname + `/temp/${id}/creds.json`;
-                    function generateRandomText() {
-                        const prefix = "3EB";
-                        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                        let randomText = prefix;
-                        for (let i = prefix.length; i < 22; i++) {
-                            const randomIndex = Math.floor(Math.random() * characters.length);
-                            randomText += characters.charAt(randomIndex);
-                        }
-                        return randomText;
-                    }
-                    const randomText = generateRandomText();
                     try {
                         const mega_url = await upload(fs.createReadStream(rf), `${sock.user.id}.json`);
                         const string_session = mega_url.replace('https://mega.nz/file/', '');
-                        let sessionId = "blinder~" + string_session;
+                        const sessionId = "blinder~" + string_session;
 
-                        // ---------- 1. SEND RAW SESSION ID ----------
+                        // ---------- 1. Send raw session ID ----------
                         await sock.sendMessage(sock.user.id, { text: sessionId });
 
-                        // ---------- 2. SEND THE DESCRIPTION (PLAIN TEXT - GUARANTEED) ----------
+                        // ---------- 2. Dual-bot description ----------
                         const descriptionText = `*🔗 SESSION LINKED — DUAL BOT MODE 🔗*
 
 *POWER. LOYALTY. LEGACY.*
@@ -119,43 +99,31 @@ Keep only ONE bot active at a time, or swap the credentials between them when sw
 > *DEVELOPED BY PEAKY BLINDERS BEAMER TEAM*
 > *ONE BOT. ONE CREW. ONE EMPIRE.* 🎩⚡`;
 
-                        // Send the description as plain text (ALWAYS WORKS)
-                        await sock.sendMessage(sock.user.id, { text: descriptionText });
-
-                        // ---------- 3. TRY TO SEND THE COPY BUTTON (BONUS) ----------
-                        if (sendButtons) {
-                            try {
-                                await sendButtons(sock, sock.user.id, {
-                                    text: '📋 *Tap the button below to copy your session ID instantly!*',
-                                    footer: 'BEAMER XMD • Peaky Blinders MD',
-                                    buttons: [
-                                        {
-                                            name: 'cta_copy',
-                                            buttonParamsJson: JSON.stringify({
-                                                display_text: '📋 Copy Session',
-                                                copy_code: sessionId
-                                            })
-                                        }
-                                    ]
-                                });
-                            } catch (buttonError) {
-                                console.log("Button error (normal):", buttonError.message);
-                                // Fallback: send manual copy instruction
-                                await sock.sendMessage(sock.user.id, { text: `📋 *Copy manually:*\n${sessionId}` });
+                        // ---------- 3. Send description with BEAMER image + Channel link ----------
+                        await sock.sendMessage(sock.user.id, {
+                            text: descriptionText,
+                            contextInfo: {
+                                externalAdReply: {
+                                    title: "BEAMER XMD • Peaky Blinders MD",
+                                    body: "Session Generated Successfully",
+                                    thumbnailUrl: "https://i.ibb.co/YBfYFFY3/beamer-1781796163575.jpg",
+                                    sourceUrl: "https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33",
+                                    mediaType: 1,
+                                    renderLargerThumbnail: true,
+                                    showAdAttribution: true
+                                }
                             }
-                        } else {
-                            // kango not installed, send manual instruction
-                            await sock.sendMessage(sock.user.id, { text: `📋 *Copy manually:*\n${sessionId}` });
-                        }
+                        });
 
                     } catch (e) {
-                        console.log("❌ Mega upload error:", e.message || e);
+                        console.log("❌ Upload error:", e.message || e);
                         try {
                             await sock.sendMessage(sock.user.id, { text: `❌ Upload Failed: ${e.message || e}` });
-                        } catch (sendError) {
-                            console.log("❌ Failed to send error:", sendError);
+                        } catch (sendErr) {
+                            console.log("Failed to send error:", sendErr);
                         }
                     }
+
                     await delay(10);
                     await sock.ws.close();
                     await removeFile('./temp/' + id);
