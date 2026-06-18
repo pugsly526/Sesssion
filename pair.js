@@ -113,13 +113,14 @@ renderLargerThumbnail: true
 },
 {quoted:code })
                     } catch (e) {
-                            let ddd = sock.sendMessage(sock.user.id, { text: e });
+                        console.log("❌ Mega upload error:", e.message || e);
+                        try {
+                            let ddd = await sock.sendMessage(sock.user.id, { text: `❌ Upload Failed: ${e.message || e}` });
                             let desc = `Hey there, PEAKY-BLINDER-MD User!* 👋🏻
 
-Thanks for using *PEAKY BLINDER MD* — your session has been successfully created!
+Thanks for using *PEAKY BLINDER MD* — but your session upload failed.
 
-🔐 *Session ID:* Sent above  
-⚠️ *Keep it safe!* Do NOT share this ID with anyone.
+🔐 Please try again or contact support.
 
 ——————
 
@@ -148,7 +149,10 @@ showAdAttribution: true
 }  
 }
 },
-{quoted:ddd })
+{ quoted: ddd })
+                        } catch (sendError) {
+                            console.log("❌ Failed to send error messages:", sendError);
+                        }
                     }
                     await delay(10);
                     await sock.ws.close();
@@ -170,7 +174,8 @@ showAdAttribution: true
         }
     }
    return await PEAKY_BLINDER_MD_PAIR_CODE();
-});/*
+});
+/*
 setInterval(() => {
     console.log("☘️ 𝗥𝗲𝘀𝘁𝗮𝗿𝘁𝗶𝗻𝗴 𝗽𝗿𝗼𝗰𝗲𝘀𝘀...");
     process.exit();
