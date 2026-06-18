@@ -3,19 +3,22 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=0.8, user-scalable=no" />
-<title>𝙋𝙀𝘼𝙆𝙔 𝘽𝙇𝙄𝙉𝘿𝙀𝙍 𝙈𝘿</title>
+<title>BEAMER XMD • PEAKY BLINDERS MD</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/a2e0da6e4c.js" crossorigin="anonymous"></script>
 
 <style>
 :root {
   --gold: #d4af37;
+  --gold-light: #f5d77a;
   --dark-gold: #b8860b;
   --red: #8b0000;
   --deep-red: #5c0000;
-  --black: #0f0f0f;
+  --dark: #0a0a0a;
   --glass: rgba(255,255,255,0.05);
+  --beamer-blue: #00d4ff;
+  --beamer-dark: #0a1628;
 }
 
 * {
@@ -25,15 +28,16 @@
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #000000, #5c0000, #d4af37);
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a0505 30%, #0a1628 60%, #0a0a0a 100%);
   background-size: 400% 400%;
-  animation: gradientMove 12s ease infinite;
+  animation: gradientMove 20s ease infinite;
   color: var(--gold);
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 }
 
 @keyframes gradientMove {
@@ -44,28 +48,95 @@ body {
 
 .main-content {
   width: 95%;
-  max-width: 700px;
-  background: rgba(0,0,0,0.75);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: 0 0 40px rgba(212,175,55,0.4);
+  max-width: 750px;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(15px);
+  border-radius: 30px;
+  padding: 45px 35px;
+  box-shadow: 0 0 80px rgba(212,175,55,0.15), 0 0 40px rgba(0,212,255,0.05);
   text-align: center;
+  border: 1px solid rgba(212,175,55,0.12);
+  position: relative;
+  overflow: hidden;
 }
 
-.logo img {
-  width: 90px;
-  border-radius: 50%;
+.main-content::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 30% 50%, rgba(212,175,55,0.03), transparent 60%),
+              radial-gradient(ellipse at 70% 50%, rgba(0,212,255,0.03), transparent 60%);
+  pointer-events: none;
+}
+
+.logo-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
   margin-bottom: 20px;
-  box-shadow: 0 0 20px var(--gold);
+  flex-wrap: wrap;
+}
+
+.logo-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-item img {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  box-shadow: 0 0 30px rgba(212,175,55,0.2);
+  border: 2px solid var(--gold);
+  object-fit: cover;
+}
+
+.logo-item .label {
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.logo-divider {
+  font-size: 1.5rem;
+  color: var(--gold);
+  opacity: 0.3;
+  font-weight: 300;
 }
 
 h1 {
   font-family: 'Poppins', sans-serif;
-  font-size: 2.8rem;
+  font-size: 2.5rem;
+  margin-bottom: 2px;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, var(--gold), #fff5d6, var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 0.8rem;
+  color: #888;
   margin-bottom: 25px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.subtitle span.beamer {
+  color: #00d4ff;
+  -webkit-text-fill-color: #00d4ff;
+}
+
+.subtitle span.peaky {
   color: var(--gold);
-  text-shadow: 0 0 20px rgba(212,175,55,0.8);
+  -webkit-text-fill-color: var(--gold);
 }
 
 .status-bar {
@@ -73,57 +144,170 @@ h1 {
   justify-content: space-between;
   margin-bottom: 30px;
   font-weight: 500;
-  color: #ffffff;
-  border-top: 1px solid var(--gold);
-  border-bottom: 1px solid var(--gold);
-  padding: 10px 0;
+  color: #aaa;
+  border-top: 1px solid rgba(212,175,55,0.12);
+  border-bottom: 1px solid rgba(212,175,55,0.12);
+  padding: 12px 0;
+  font-size: 0.8rem;
 }
 
+.status-bar i {
+  margin-right: 6px;
+}
+
+.status-bar .gold { color: var(--gold); }
+.status-bar .blue { color: #00d4ff; }
+
 .section {
-  margin-bottom: 35px;
+  margin-bottom: 28px;
   padding: 25px;
-  border-radius: 15px;
-  border: 1px solid var(--gold);
-  background: var(--glass);
+  border-radius: 20px;
+  border: 1px solid rgba(212,175,55,0.1);
+  background: rgba(255,255,255,0.03);
+  transition: 0.3s;
+  position: relative;
+  z-index: 1;
+}
+
+.section:hover {
+  border-color: rgba(212,175,55,0.25);
+  box-shadow: 0 0 40px rgba(212,175,55,0.05);
 }
 
 .section h3 {
-  font-size: 1.6rem;
-  margin-bottom: 20px;
-  color: var(--gold);
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
+
+.section h3 .gold-text { color: var(--gold); }
+.section h3 .blue-text { color: #00d4ff; }
 
 .btn-grid {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 12px;
 }
 
 .btn {
-  background: linear-gradient(45deg, var(--red), var(--gold));
   border: none;
-  padding: 14px 30px;
+  padding: 13px 30px;
   border-radius: 12px;
   color: white;
-  font-weight: bold;
-  font-size: 1.1rem;
+  font-weight: 700;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: 0.3s;
-  box-shadow: 0 0 20px rgba(212,175,55,0.5);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Poppins', sans-serif;
 }
 
-.btn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 30px rgba(212,175,55,0.8);
+.btn-gold {
+  background: linear-gradient(135deg, var(--red), var(--gold));
+  box-shadow: 0 0 25px rgba(212,175,55,0.2);
+}
+
+.btn-gold:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px rgba(212,175,55,0.35);
+}
+
+.btn-blue {
+  background: linear-gradient(135deg, #0a1628, #00d4ff);
+  box-shadow: 0 0 25px rgba(0,212,255,0.15);
+}
+
+.btn-blue:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px rgba(0,212,255,0.3);
+}
+
+.btn-outline-gold {
+  background: transparent;
+  border: 2px solid var(--gold);
+  color: var(--gold);
+  box-shadow: none;
+}
+
+.btn-outline-gold:hover {
+  background: var(--gold);
+  color: var(--dark);
+}
+
+.btn-outline-blue {
+  background: transparent;
+  border: 2px solid #00d4ff;
+  color: #00d4ff;
+  box-shadow: none;
+}
+
+.btn-outline-blue:hover {
+  background: #00d4ff;
+  color: var(--dark);
+}
+
+.btn i {
+  font-size: 1rem;
 }
 
 .footer {
-  margin-top: 40px;
-  font-size: 0.95rem;
-  color: #ccc;
+  margin-top: 30px;
+  font-size: 0.8rem;
+  color: #666;
+  line-height: 2;
+  border-top: 1px solid rgba(212,175,55,0.08);
+  padding-top: 20px;
+  position: relative;
+  z-index: 1;
 }
 
-.dev-section .btn {
-  margin: 8px;
+.footer .gold { color: var(--gold); font-weight: 700; }
+.footer .blue { color: #00d4ff; font-weight: 700; }
+.footer .divider { opacity: 0.2; padding: 0 8px; }
+
+.badge-row {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.badge-gold {
+  background: rgba(212,175,55,0.12);
+  color: var(--gold);
+  border: 1px solid rgba(212,175,55,0.15);
+}
+
+.badge-blue {
+  background: rgba(0,212,255,0.08);
+  color: #00d4ff;
+  border: 1px solid rgba(0,212,255,0.12);
+}
+
+@media (max-width: 550px) {
+  .main-content { padding: 25px 18px; }
+  h1 { font-size: 1.6rem; }
+  .section { padding: 18px; }
+  .btn { padding: 11px 18px; font-size: 0.8rem; }
+  .logo-item img { width: 55px; height: 55px; }
+  .logo-divider { font-size: 1rem; }
+  .logo-row { gap: 15px; }
+  .status-bar { font-size: 0.65rem; flex-wrap: wrap; gap: 5px; justify-content: center; }
 }
 </style>
 </head>
@@ -132,39 +316,75 @@ h1 {
 
 <div class="main-content">
 
-<div class="logo">
-<img src="https://files.catbox.moe/2857dd.jpg">
+<div class="badge-row">
+  <span class="badge badge-gold">🎩 PEAKY BLINDERS</span>
+  <span class="badge badge-blue">⚡ BEAMER XMD</span>
 </div>
 
-<h1>𝙋𝙀𝘼𝙆𝙔 𝘽𝙇𝙄𝙉𝘿𝙀𝙍 𝙈𝘿 𝙋𝙊𝙍𝙏𝘼𝙇</h1>
+<div class="logo-row">
+  <div class="logo-item">
+    <img src="https://files.catbox.moe/2857dd.jpg" alt="Peaky Blinders MD">
+    <span class="label">🎩 Peaky MD</span>
+  </div>
+  <span class="logo-divider">✦</span>
+  <div class="logo-item">
+    <img src="https://files.catbox.moe/2857dd.jpg" alt="BEAMER XMD">
+    <span class="label">⚡ Beamer XMD</span>
+  </div>
+</div>
+
+<h1>DUAL BOT PORTAL</h1>
+<div class="subtitle">
+  <span class="peaky">PEAKY BLINDERS MD</span>  ✦  <span class="beamer">BEAMER XMD</span>
+</div>
 
 <div class="status-bar">
-  <div id="time"></div>
-  <div id="date"></div>
-  <div id="battery-status">
-    <i class="fas fa-battery-full"></i>
-  </div>
+  <div><i class="fas fa-clock gold"></i> <span id="time"></span></div>
+  <div><i class="fas fa-calendar gold"></i> <span id="date"></span></div>
+  <div><i class="fas fa-bolt blue"></i> <span id="battery-status">Online</span></div>
+  <div><i class="fas fa-users gold"></i> <span id="status-text">⚡ Active</span></div>
 </div>
 
 <div class="section">
-  <h3>Get Session ID</h3>
+  <h3><i class="fas fa-key gold-text"></i> Get Session ID</h3>
   <div class="btn-grid">
-    <!-- QR BUTTON REMOVED -->
-    <button class="btn" onclick="window.open('/pair')">Pair Code</button>
+    <button class="btn btn-gold" onclick="window.open('/pair')">
+      <i class="fas fa-link"></i> Pair Code
+    </button>
   </div>
 </div>
 
-<div class="section dev-section">
-  <h3>Developer & Community</h3>
+<div class="section" style="border-color:rgba(0,212,255,0.08);">
+  <h3><i class="fas fa-rocket blue-text"></i> Both Bots — One Session</h3>
+  <p style="color:#888;font-size:0.85rem;margin-bottom:15px;line-height:1.6;">
+    One session ID works for <span class="gold-text">PEAKY BLINDERS MD</span> and <span style="color:#00d4ff;">BEAMER XMD</span>.
+    <br>Powered by the <strong style="color:var(--gold);">Peaky Blinders Beamer Team</strong>.
+  </p>
+</div>
+
+<div class="section">
+  <h3><i class="fas fa-globe gold-text"></i> Community</h3>
   <div class="btn-grid">
-    <button class="btn" onclick="window.open('https://github.com/Thomas-shelby001')">GitHub</button>
-    <button class="btn" onclick="window.open('https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33')">WhatsApp Channel</button>
+    <button class="btn btn-outline-gold" onclick="window.open('https://github.com/Thomas-shelby001/PEAKY-BLINDER-MD')">
+      <i class="fab fa-github"></i> Peaky MD
+    </button>
+    <button class="btn btn-outline-blue" onclick="window.open('https://github.com/Thomas-shelby001/BEAMER-XMD')">
+      <i class="fab fa-github"></i> Beamer XMD
+    </button>
+    <button class="btn btn-gold" onclick="window.open('https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33')">
+      <i class="fab fa-whatsapp"></i> Channel
+    </button>
   </div>
 </div>
 
 <div class="footer">
-Made with passion & style by Sang Lee <br>
-By Order of the Peaky Blinders 🎩
+  <span class="gold">🎩 PEAKY BLINDERS MD</span>
+  <span class="divider">✦</span>
+  <span class="blue">⚡ BEAMER XMD</span>
+  <br>
+  <span style="font-size:0.7rem;color:#555;">Developed by <strong style="color:var(--gold);">Peaky Blinders Beamer Team</strong></span>
+  <br>
+  <span style="font-size:0.65rem;color:#444;">One Bot. One Crew. One Empire.</span>
 </div>
 
 </div>
@@ -180,8 +400,8 @@ function updateBatteryStatus() {
   if (navigator.getBattery) {
     navigator.getBattery().then(function(battery) {
       let level = Math.round(battery.level * 100) + '%';
-      let charging = battery.charging ? 'Charging' : 'Discharging';
-      document.getElementById('battery-status').textContent = level + ' | ' + charging;
+      let charging = battery.charging ? '⚡ Charging' : '🔋 ' + level;
+      document.getElementById('battery-status').textContent = charging;
     });
   }
 }
