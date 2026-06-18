@@ -3,28 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>PEAKY-BLINDER-MD PAIR CODE | WHATSAPP CONNECT</title>
-  <meta name="theme-color" content="#1a0a0a" />
-  <link rel="icon" href="https://files.catbox.moe/b2oixn.jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>BEAMER XMD • PEAKY BLINDERS MD — Pair Code</title>
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="icon" href="https://files.catbox.moe/2857dd.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
 
   <style>
     :root {
-      --gold:#d4af37;
-      --gold-light:#f5d77a;
-      --red:#8b0000;
-      --red-light:#c1121f;
-      --dark:#120404;
-      --darker:#1a0a0a;
-      --text:#fff5f5;
-      --gray:#e0cfcf;
-      --card-bg:rgba(212,175,55,0.06);
-      --shadow:0 15px 40px rgba(0,0,0,0.7);
-      --transition:all 0.3s ease;
+      --gold: #d4af37;
+      --gold-light: #f5d77a;
+      --red: #8b0000;
+      --red-light: #c1121f;
+      --dark: #0a0a0a;
+      --darker: #050505;
+      --text: #fff5f5;
+      --gray: #e0cfcf;
+      --card-bg: rgba(212,175,55,0.05);
+      --shadow: 0 20px 60px rgba(0,0,0,0.8);
+      --beamer-blue: #00d4ff;
+      --beamer-dark: #0a1628;
     }
 
-    * {box-sizing:border-box;margin:0;padding:0;transition:var(--transition);}
+    * {box-sizing:border-box;margin:0;padding:0;transition:all 0.3s ease;}
 
     body {
       font-family:'Poppins',sans-serif;
@@ -34,7 +35,7 @@
       flex-direction:column;
       justify-content:center;
       align-items:center;
-      background:linear-gradient(135deg,#1a0a0a 0%,#2b0f0f 40%,#4a1010 70%,#120404 100%);
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a0505 30%, #0a1628 60%, #0a0a0a 100%);
       background-attachment: fixed;
       padding:20px;
     }
@@ -44,92 +45,311 @@
       top: 0;
       left: 0;
       right: 0;
-      padding: 14px 20px;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(6px);
-      border-bottom: 1px solid rgba(212,175,55,0.3);
+      padding: 12px 25px;
+      background: rgba(0,0,0,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(212,175,55,0.12);
       z-index: 1000;
       text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
     }
 
     .navbar .brand {
-      background: linear-gradient(90deg,var(--gold),var(--red-light));
-      -webkit-background-clip: text;
-      color: transparent;
       font-weight: 800;
-      font-size: 1.2rem;
+      font-size: 0.9rem;
       text-decoration: none;
       letter-spacing: 0.5px;
     }
 
+    .navbar .brand-gold {
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .navbar .brand-blue {
+      background: linear-gradient(90deg, #00d4ff, #66e8ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .navbar .divider {
+      color: #444;
+      font-weight: 300;
+    }
+
+    .navbar .brand i {
+      -webkit-text-fill-color: initial;
+      margin-right: 5px;
+    }
+
+    .navbar .brand-gold i { color: var(--gold); }
+    .navbar .brand-blue i { color: #00d4ff; }
+
     .pair-card {
       background: var(--card-bg);
-      border: 1px solid rgba(212,175,55,0.3);
-      border-radius: 18px;
+      border: 1px solid rgba(212,175,55,0.12);
+      border-radius: 24px;
       padding: 40px 30px;
-      max-width: 400px;
+      max-width: 420px;
       width: 100%;
       box-shadow: var(--shadow);
       text-align: center;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(15px);
+      margin-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pair-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at 30% 20%, rgba(212,175,55,0.03), transparent 60%),
+                  radial-gradient(ellipse at 70% 80%, rgba(0,212,255,0.03), transparent 60%);
+      pointer-events: none;
+    }
+
+    .logo-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo-row img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      box-shadow: 0 0 25px rgba(212,175,55,0.15);
+      object-fit: cover;
+    }
+
+    .logo-row .logo-divider {
+      color: var(--gold);
+      opacity: 0.3;
+      font-size: 1.2rem;
     }
 
     .pair-card h1 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      background: linear-gradient(90deg,var(--gold-light),var(--red-light));
-      -webkit-background-clip: text;
-      color: transparent;
-      margin-bottom: 6px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 3px;
+      position: relative;
+      z-index: 1;
+      letter-spacing: 1px;
     }
 
-    .pair-card p {
-      color: var(--gray);
-      font-size: 0.95rem;
-      margin-bottom: 18px;
+    .pair-card h1 .gold-text { color: var(--gold); }
+    .pair-card h1 .blue-text { color: #00d4ff; }
+
+    .pair-card .sub {
+      color: #888;
+      font-size: 0.8rem;
+      margin-bottom: 22px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
     }
+
+    .pair-card .sub i { margin-right: 5px; }
+    .pair-card .sub .gold { color: var(--gold); }
+    .pair-card .sub .blue { color: #00d4ff; }
 
     label {
       display: block;
       font-weight: 600;
       text-align: left;
       margin-bottom: 6px;
+      color: var(--gold-light);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 16px;
+      z-index: 1;
+    }
+
+    .input-wrapper i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+      opacity: 0.5;
     }
 
     input {
       width: 100%;
-      padding: 10px 14px;
-      border-radius: 10px;
-      border: 1px solid rgba(212,175,55,0.4);
-      background: rgba(139,0,0,0.15);
+      padding: 12px 14px 12px 45px;
+      border-radius: 12px;
+      border: 1px solid rgba(212,175,55,0.2);
+      background: rgba(0,0,0,0.4);
       color: var(--text);
       font-size: 0.95rem;
-      margin-bottom: 16px;
+      font-family: 'Poppins', sans-serif;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 25px rgba(212,175,55,0.08);
+      background: rgba(0,0,0,0.6);
+    }
+
+    input::placeholder {
+      color: rgba(255,255,255,0.2);
     }
 
     .pair-btn {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       font-weight: 700;
       color: #fff;
-      background: linear-gradient(135deg,var(--red),var(--gold));
+      background: linear-gradient(135deg, var(--red), var(--gold));
       cursor: pointer;
       margin-bottom: 15px;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      transition: 0.3s;
+      box-shadow: 0 0 30px rgba(212,175,55,0.12);
+      position: relative;
+      z-index: 1;
     }
+
+    .pair-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 50px rgba(212,175,55,0.25);
+    }
+
+    .pair-btn:active { transform: scale(0.98); }
 
     .channel-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: rgba(212,175,55,0.15);
+      gap: 8px;
+      background: rgba(212,175,55,0.08);
       color: var(--gold-light);
       border-radius: 25px;
-      padding: 8px 16px;
+      padding: 8px 20px;
       text-decoration: none;
       font-weight: 600;
-      margin-bottom: 24px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(212,175,55,0.1);
+      transition: 0.3s;
+      font-size: 0.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .channel-btn:hover {
+      background: rgba(212,175,55,0.15);
+      border-color: var(--gold);
+    }
+
+    #pair {
+      margin-top: 15px;
+      padding: 15px;
+      border-radius: 14px;
+      background: rgba(0,0,0,0.3);
+      min-height: 50px;
+      position: relative;
+      z-index: 1;
+    }
+
+    #pair .code-display {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 2px;
+      word-break: break-all;
+    }
+
+    #pair .code-display span { color: #fff; }
+
+    .loader {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      border: 3px solid rgba(212,175,55,0.15);
+      border-top: 3px solid var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .footer-text {
+      margin-top: 18px;
+      font-size: 0.65rem;
+      color: #444;
+      letter-spacing: 1px;
+      position: relative;
+      z-index: 1;
+      line-height: 1.8;
+    }
+
+    .footer-text .gold { color: var(--gold); }
+    .footer-text .blue { color: #00d4ff; }
+
+    .dual-badge {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .dual-badge span {
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 3px 14px;
+      border-radius: 15px;
+    }
+
+    .dual-badge .badge-gold {
+      background: rgba(212,175,55,0.1);
+      color: var(--gold);
+      border: 1px solid rgba(212,175,55,0.12);
+    }
+
+    .dual-badge .badge-blue {
+      background: rgba(0,212,255,0.08);
+      color: #00d4ff;
+      border: 1px solid rgba(0,212,255,0.1);
+    }
+
+    @media (max-width: 480px) {
+      .pair-card { padding: 30px 20px; }
+      .pair-card h1 { font-size: 0.9rem; }
+      input { padding: 10px 12px 10px 40px; font-size: 0.9rem; }
+      #pair .code-display { font-size: 1rem; }
+      .navbar { padding: 10px 15px; gap: 8px; }
+      .navbar .brand { font-size: 0.7rem; }
+      .logo-row img { width: 40px; height: 40px; }
     }
   </style>
 </head>
@@ -137,73 +357,116 @@
 <body>
 
   <nav class="navbar">
-    <a href="https://github.com/Thomas-shelby001/PEAKY-BLINDER-MD" class="brand">
-      <i class="fas fa-robot"></i> PEAKY-BLINDER-MD
+    <a href="https://github.com/Thomas-shelby001/PEAKY-BLINDER-MD" class="brand brand-gold">
+      <i class="fas fa-crown"></i> PEAKY BLINDERS MD
+    </a>
+    <span class="divider">✦</span>
+    <a href="https://github.com/Thomas-shelby001/BEAMER-XMD" class="brand brand-blue">
+      <i class="fas fa-bolt"></i> BEAMER XMD
     </a>
   </nav>
 
   <div class="pair-card">
-    <h1>PEAKY-BLINDER-MD - PAIRING CODE</h1>
-    <p>Enter your WhatsApp number without the + sign</p>
 
-    <label for="number">Phone Number</label>
-    <input type="text" id="number" placeholder="e.g., 254xxxxxxxxxx" />
-    <button id="submit" class="pair-btn">GET CODE</button>
+    <div class="dual-badge">
+      <span class="badge-gold">🎩 Peaky</span>
+      <span class="badge-blue">⚡ Beamer</span>
+    </div>
+
+    <div class="logo-row">
+      <img src="https://files.catbox.moe/2857dd.jpg" alt="Peaky Blinders MD">
+      <span class="logo-divider">✦</span>
+      <img src="https://files.catbox.moe/2857dd.jpg" alt="BEAMER XMD">
+    </div>
+
+    <h1>
+      <span class="gold-text">PEAKY</span> • <span class="blue-text">BEAMER</span>
+    </h1>
+    <div class="sub">
+      <span class="gold">✦ Pair Your Device ✦</span>
+    </div>
+
+    <label for="number"><i class="fas fa-phone-alt" style="margin-right:6px;color:var(--gold);"></i> WhatsApp Number</label>
+    <div class="input-wrapper">
+      <i class="fas fa-phone-alt"></i>
+      <input type="text" id="number" placeholder="e.g., 2547xxxxxxxx" />
+    </div>
+
+    <button id="submit" class="pair-btn">
+      <i class="fas fa-link"></i> GENERATE PAIR CODE
+    </button>
 
     <a href="https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33" target="_blank" class="channel-btn">
-      <i class="fab fa-whatsapp"></i> Channel
+      <i class="fab fa-whatsapp"></i> Join WhatsApp Channel
     </a>
 
-    <div id="pair" style="margin-top:20px;"></div>
+    <div id="pair"></div>
+
+    <div class="footer-text">
+      <span class="gold">🎩 PEAKY BLINDERS MD</span>
+      <span style="opacity:0.2;padding:0 5px;">✦</span>
+      <span class="blue">⚡ BEAMER XMD</span>
+      <br>
+      <span style="color:#333;">One Bot. One Crew. One Empire.</span>
+    </div>
   </div>
 
-  <!-- ✅ Updated axios (stable version) -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
   <script>
-    let a = document.getElementById("pair");
-    let b = document.getElementById("submit");
-    let c = document.getElementById("number");
+    let pairDiv = document.getElementById("pair");
+    let submitBtn = document.getElementById("submit");
+    let numberInput = document.getElementById("number");
 
-    async function Copy() {
-      let text = document.getElementById("copy").innerText;
-      let obj = document.getElementById("copy");
-      await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
-      obj.innerText = "COPIED";
-      obj.style = "color:gold;font-weight:bold";
-      setTimeout(() => {
-        obj.innerText = text;
-        obj.style = "color:red;font-weight:bold";
-      }, 500);
-    }
+    numberInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        submitBtn.click();
+      }
+    });
 
-    b.addEventListener("click", async (e) => {
+    submitBtn.addEventListener("click", async (e) => {
       e.preventDefault();
 
-      if (!c.value) {
-        a.innerHTML = '<a style="color:gold;font-weight:bold">Enter your WhatsApp number with a country code</a><br><br>';
+      const rawNumber = numberInput.value.trim();
+
+      if (!rawNumber) {
+        pairDiv.innerHTML = '<div style="color:var(--gold-light);font-weight:500;font-size:0.9rem;">❌ Enter your WhatsApp number</div>';
         return;
       }
 
-      if (c.value.replace(/[^0-9]/g, "").length < 11) {
-        a.innerHTML = '<a style="color:gold;font-weight:bold">Invalid number format</a><br><br>';
+      const cleanNumber = rawNumber.replace(/[^0-9]/g, '');
+
+      if (cleanNumber.length < 10 || cleanNumber.length > 15) {
+        pairDiv.innerHTML = '<div style="color:var(--gold-light);font-weight:500;font-size:0.9rem;">❌ Invalid number format</div>';
         return;
       }
 
-      const bc = c.value.replace(/[^0-9]/g, "");
-      a.innerHTML = '<a style="color:gold;font-weight:bold">Please wait...</a><br><br>';
+      pairDiv.innerHTML = `<div class="loader"></div><div style="margin-top:10px;color:#666;font-size:0.8rem;">Generating code...</div>`;
 
       try {
-        let { data } = await axios.get(`/code?number=${bc}`);
-        let code = data.code || "Service Unavailable";
+        const { data } = await axios.get(`/code?number=${cleanNumber}`);
+        const code = data.code || "Service Unavailable";
 
-        a.innerHTML =
-          '<font id="copy" onclick="Copy()" style="color:gold;font-weight:bold" size="5">CODE: <span style="color:white;font-weight:bold">' +
-          code +
-          '</span></font><br><br><br>';
+        if (code === "Service Unavailable" || code.includes("Service")) {
+          pairDiv.innerHTML = `<div style="color:#ff6b6b;font-weight:500;font-size:0.9rem;">⚠️ ${code}</div>`;
+          return;
+        }
+
+        pairDiv.innerHTML = `
+          <div style="font-size:0.6rem;color:#666;text-transform:uppercase;letter-spacing:3px;margin-bottom:4px;">Your Pair Code</div>
+          <div class="code-display">CODE: <span>${code}</span></div>
+          <div style="margin-top:8px;font-size:0.7rem;color:#555;">
+            <i class="fas fa-clock"></i> Enter this code in WhatsApp
+          </div>
+          <div style="margin-top:6px;font-size:0.6rem;color:#444;">
+            <span style="color:var(--gold);">🎩 Peaky</span> • <span style="color:#00d4ff;">⚡ Beamer</span>
+          </div>
+        `;
 
       } catch (err) {
-        a.innerHTML = '<a style="color:red;font-weight:bold">Error connecting to server</a><br><br>';
+        console.error(err);
+        pairDiv.innerHTML = `<div style="color:#ff6b6b;font-weight:500;font-size:0.9rem;">❌ Server error — please try again</div>`;
       }
     });
   </script>
