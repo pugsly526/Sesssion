@@ -3,29 +3,28 @@ const express = require('express');
 const fs = require('fs');
 let router = express.Router();
 const pino = require("pino");
-const { default: makeWASocket, useMultiFileAuthState, delay, Browsers, makeCacheableSignalKeyStore, getAggregateVotesInPollMessage, DisconnectReason, WA_DEFAULT_EPHEMERAL, jidNormalizedUser, proto, getDevice, generateWAMessageFromContent, fetchLatestBaileysVersion, makeInMemoryStore, getContentType, generateForwardMessageContent, downloadContentFromMessage, jidDecode } = require('@whiskeysockets/baileys')
-
+const { default: makeWASocket, useMultiFileAuthState, delay, Browsers, makeCacheableSignalKeyStore } = require('@whiskeysockets/baileys');
 const { upload } = require('./mega');
+const { sendButtons } = require('kango-wa');
+
 function removeFile(FilePath) {
     if (!fs.existsSync(FilePath)) return false;
     fs.rmSync(FilePath, { recursive: true, force: true });
 }
+
 router.get('/', async (req, res) => {
     const id = makeid();
     let num = req.query.number;
     async function PEAKY_BLINDER_MD_PAIR_CODE() {
-        const {
-            state,
-            saveCreds
-        } = await useMultiFileAuthState('./temp/' + id);
+        const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
         try {
-var items = ["Edge"];
-function selectRandomItem(array) {
-  var randomIndex = Math.floor(Math.random() * array.length);
-  return array[randomIndex];
-}
-var randomItem = selectRandomItem(items);
-            
+            var items = ["Edge"];
+            function selectRandomItem(array) {
+                var randomIndex = Math.floor(Math.random() * array.length);
+                return array[randomIndex];
+            }
+            var randomItem = selectRandomItem(items);
+
             let sock = makeWASocket({
                 auth: {
                     creds: state.creds,
@@ -47,15 +46,9 @@ var randomItem = selectRandomItem(items);
             }
             sock.ev.on('creds.update', saveCreds);
             sock.ev.on("connection.update", async (s) => {
-
-    const {
-                    connection,
-                    lastDisconnect
-                } = s;
-                
+                const { connection, lastDisconnect } = s;
                 if (connection == "open") {
                     await delay(5000);
-                    let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
                     let rf = __dirname + `/temp/${id}/creds.json`;
                     function generateRandomText() {
                         const prefix = "3EB";
@@ -69,87 +62,91 @@ var randomItem = selectRandomItem(items);
                     }
                     const randomText = generateRandomText();
                     try {
-
-
-                        
-                        const { upload } = require('./mega');
                         const mega_url = await upload(fs.createReadStream(rf), `${sock.user.id}.json`);
                         const string_session = mega_url.replace('https://mega.nz/file/', '');
                         let md = "blinder~" + string_session;
-                        let code = await sock.sendMessage(sock.user.id, { text: md });
-                        let desc = `*Hey there, PEAKY-BLINDER-MD User!* 👋🏻
+                        const sessionId = md;
 
-Thanks for using *PEAKY-BLINDER-MD* — your session has been successfully created!
+                        // Send the raw session ID as plain text first
+                        await sock.sendMessage(sock.user.id, { text: sessionId });
 
-🔐 *Session ID:* Sent above  
-⚠️ *Keep it safe!* Do NOT share this ID with anyone.
-🔱 *By Order of The PEAKY BLINDERS 🎩
+                        // The full description with BOTH GitHub repos
+                        const descriptionText = `*🔗 SESSION LINKED — DUAL BOT MODE 🔗*
 
-——————
+*POWER. LOYALTY. LEGACY.*
 
-*✅ Stay Updated:*  
-Join our the Peaky blinders community below👇:  
-https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33
+This session ID is now successfully generated and works for BOTH bots simultaneously:
 
-*💻 Source Code:*  
-Fork & explore the project on GitHub:  
-https://github.com/Thomas-shelby001/PEAKY-BLINDER-MD
+┌─────────────────────────────────┐
+│  🤝 SHARED SESSION ACTIVE      │
+│  ✅ One ID. Two Bots. One Crew.│
+└─────────────────────────────────┘
 
-——————
+*📱 DEVICE:* ${sock.user.id}
+*🔑 SESSION ID:* Sent above ☝️
+*⚠️ KEEP THIS SECURE — DO NOT SHARE*
 
-> *© Powered by Sang Lee*
-By Order of the Peaky blinders 🔱. ✌🏻`; 
-                        await sock.sendMessage(sock.user.id, {
-text: desc,
-contextInfo: {
-externalAdReply: {
-title: "ᴘᴇᴀᴋʏ-ʙʟɪɴᴅᴇʀ-ᴍᴅ",
-thumbnailUrl: "https://files.catbox.moe/b2oixn.jpg",
-sourceUrl: "https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33",
-mediaType: 1,
-renderLargerThumbnail: true
-}  
-}
-},
-{quoted:code })
+━━━━━━━━━━━━━━━━━━━━━━━━
+*BOTS USING THIS SESSION:*
+▸ *PEAKY BLINDERS MD* 🎩
+  (By Thomas-shelby001)
+▸ *BEAMER XMD* ⚡
+  (Next Generation Bot)
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+*⚠️ IMPORTANT TIP:*
+If you run BOTH bots online at the exact same time using this one session, WhatsApp WILL disconnect the older one. 
+Keep only ONE bot active at a time, or swap the credentials between them when switching.
+
+*WE DON'T FOLLOW RULES.*
+*WE MAKE THEM.*
+
+━━━━━━━━━━━━━━━━━━━━━━━━
+*👥 JOIN THE EMPIRE:*
+📢 Channel: https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33
+💻 GitHub:
+▸ Peaky: https://github.com/Thomas-shelby001/PEAKY-BLINDER-MD
+▸ Beamer XMD: https://github.com/Thomas-shelby001/BEAMER-XMD
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+> *DEVELOPED BY PEAKY BLINDERS BEAMER TEAM*
+> *ONE BOT. ONE CREW. ONE EMPIRE.* 🎩⚡`;
+
+                        // Send the branded description with a COPY button
+                        await sendButtons(sock, sock.user.id, {
+                            text: descriptionText,
+                            footer: 'BEAMER XMD • Peaky Blinders MD',
+                            buttons: [
+                                {
+                                    name: 'cta_copy',
+                                    buttonParamsJson: JSON.stringify({
+                                        display_text: '📋 Copy Session ID',
+                                        copy_code: sessionId
+                                    })
+                                }
+                            ]
+                        });
+
                     } catch (e) {
                         console.log("❌ Mega upload error:", e.message || e);
                         try {
-                            let ddd = await sock.sendMessage(sock.user.id, { text: `❌ Upload Failed: ${e.message || e}` });
-                            let desc = `Hey there, PEAKY-BLINDER-MD User!* 👋🏻
+                            // If Mega fails, send error with a dummy copy button
+                            await sendButtons(sock, sock.user.id, {
+                                text: `❌ *Session Upload Failed*
 
-Thanks for using *PEAKY BLINDER MD* — but your session upload failed.
-
-🔐 Please try again or contact support.
-
-——————
-
-*✅ Stay Updated:*  
-Join our official WhatsApp Channel:  
-https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33
-
-*💻 Source Code:*  
-Fork & explore the project on GitHub:  
-https://github.com/Thomas-shelby001/PEAKY-BLINDER-MD
-
-——————
-
-> *© Powered by Sang Lee*
-By Order of the Peaky blinders 🔱⚜️. ✌🏻`;
-                            await sock.sendMessage(sock.user.id, {
-text: desc,
-contextInfo: {
-externalAdReply: {
-title: "ᴘᴇᴀᴋʏ-ʙʟɪɴᴅᴇʀ-ᴍᴅ",
-thumbnailUrl: "https://files.catbox.moe/b2oixn.jpg",
-sourceUrl: "https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33",
-mediaType: 2,
-renderLargerThumbnail: true,
-showAdAttribution: true
-}  
-}
-},
-{ quoted: ddd })
+Please try again or contact support.
+Error: ${e.message || e}`,
+                                footer: 'BEAMER XMD • Peaky Blinders MD',
+                                buttons: [
+                                    {
+                                        name: 'cta_copy',
+                                        buttonParamsJson: JSON.stringify({
+                                            display_text: '📋 Copy Error ID',
+                                            copy_code: 'UPLOAD_FAILED_RETRY'
+                                        })
+                                    }
+                                ]
+                            });
                         } catch (sendError) {
                             console.log("❌ Failed to send error messages:", sendError);
                         }
@@ -173,11 +170,7 @@ showAdAttribution: true
             }
         }
     }
-   return await PEAKY_BLINDER_MD_PAIR_CODE();
+    return await PEAKY_BLINDER_MD_PAIR_CODE();
 });
-/*
-setInterval(() => {
-    console.log("☘️ 𝗥𝗲𝘀𝘁𝗮𝗿𝘁𝗶𝗻𝗴 𝗽𝗿𝗼𝗰𝗲𝘀𝘀...");
-    process.exit();
-}, 180000); //30min*/
+
 module.exports = router;
