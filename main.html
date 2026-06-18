@@ -341,7 +341,7 @@ h1 {
 <div class="status-bar">
   <div><i class="fas fa-clock gold"></i> <span id="time"></span></div>
   <div><i class="fas fa-calendar gold"></i> <span id="date"></span></div>
-  <div><i class="fas fa-bolt blue"></i> <span id="battery-status">Online</span></div>
+  <div><i class="fas fa-battery-full gold"></i> <span id="battery-status">Loading...</span></div>
   <div><i class="fas fa-users gold"></i> <span id="status-text">⚡ Active</span></div>
 </div>
 
@@ -390,18 +390,20 @@ h1 {
 </div>
 
 <script>
+// Update time every second
 function updateTime() {
   const time = new Date();
   document.getElementById('time').textContent = time.toLocaleTimeString();
   document.getElementById('date').textContent = time.toLocaleDateString();
 }
 
+// Battery status - working method from your previous main.html
 function updateBatteryStatus() {
   if (navigator.getBattery) {
     navigator.getBattery().then(function(battery) {
       let level = Math.round(battery.level * 100) + '%';
       let charging = battery.charging ? '⚡ Charging' : '🔋 ' + level;
-      document.getElementById('battery-status').textContent = charging;
+      document.getElementById('battery-status').textContent = level + ' | ' + charging;
     });
   }
 }
