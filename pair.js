@@ -1,3 +1,4 @@
+
 const { makeid } = require('./gen-id');
 const express = require('express');
 const fs = require('fs');
@@ -52,13 +53,13 @@ router.get('/', async (req, res) => {
                     try {
                         const mega_url = await upload(fs.createReadStream(rf), `${sock.user.id}.json`);
                         const string_session = mega_url.replace('https://mega.nz/file/', '');
-                        const sessionId = "blinder~" + string_session;
+                        let sessionId = "blinder~" + string_session;
 
-                        // 1. Send raw session ID first
+                        // ---------- 1. SEND RAW SESSION ID ----------
                         let codeMsg = await sock.sendMessage(sock.user.id, { text: sessionId });
 
-                        // 2. Build the dual-bot description
-                        let desc = `*🔗 SESSION LINKED — DUAL BOT MODE 🔗*
+                        // ---------- 2. BUILD DESCRIPTION ----------
+                        const descriptionText = `*🔗 SESSION LINKED — DUAL BOT MODE 🔗*
 
 *POWER. LOYALTY. LEGACY.*
 
@@ -96,29 +97,53 @@ Keep only ONE bot active at a time, or swap the credentials between them when sw
 ▸ Beamer XMD: https://github.com/Thomas-shelby001/BEAMER-XMD
 ━━━━━━━━━━━━━━━━━━━━━━━━
 
-> *DEVELOPED BY MR LEE*
+> *DEVELOPED BY PEAKY BLINDERS BEAMER TEAM*
 > *ONE BOT. ONE CREW. ONE EMPIRE.* 🎩⚡`;
 
-                        // 3. Send description with thumbnail – QUOTE the session message (like old code)
+                        // ---------- 3. SEND DESCRIPTION WITH CHANNEL CONTEXT (EXACT SAME FORMAT AS WORKING CODE) ----------
                         await sock.sendMessage(sock.user.id, {
-                            text: desc,
+                            text: descriptionText,
                             contextInfo: {
                                 externalAdReply: {
                                     title: "BEAMER XMD • Peaky Blinders MD",
-                                    thumbnailUrl: "https://files.catbox.moe/cgryqy.jpg", // ⚠️ Replace with your uploaded image
+                                    thumbnailUrl: "YOUR_CATBOX_URL_HERE", // ⚠️ REPLACE WITH YOUR UPLOADED IMAGE
                                     sourceUrl: "https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33",
                                     mediaType: 1,
                                     renderLargerThumbnail: true,
                                     showAdAttribution: true
                                 }
                             }
-                        }, { quoted: codeMsg }); // ← This matches your working format
+                        }, { quoted: codeMsg }); // ← This is the key! Quoting the session message.
+
+                        // ---------- 4. SEND FAKE VCARD AS FALLBACK (SHOWS CHANNEL LINK) ----------
+                        const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:BEAMER XMD • Peaky Blinders MD
+ORG:Peaky Blinders Team
+URL:https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33
+NOTE:Join our WhatsApp Channel for updates!
+END:VCARD`;
+
+                        await sock.sendMessage(sock.user.id, {
+                            contacts: {
+                                displayName: "BEAMER XMD • Peaky Blinders MD",
+                                contacts: [{ vcard }]
+                            }
+                        });
+
+                        // ---------- 5. SEND CHANNEL LINK AS PLAIN TEXT (GUARANTEED) ----------
+                        await sock.sendMessage(sock.user.id, {
+                            text: `📢 *Join our WhatsApp Channel:*\nhttps://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33`
+                        });
 
                     } catch (e) {
-                        // If upload fails, send error without thumbnail
-                        await sock.sendMessage(sock.user.id, { text: `❌ Upload Failed: ${e.message || e}` });
+                        console.log("❌ Mega upload error:", e.message || e);
+                        try {
+                            await sock.sendMessage(sock.user.id, { text: `❌ Upload Failed: ${e.message || e}` });
+                        } catch (sendError) {
+                            console.log("❌ Failed to send error:", sendError);
+                        }
                     }
-
                     await delay(10);
                     await sock.ws.close();
                     await removeFile('./temp/' + id);
