@@ -6,13 +6,13 @@ const pino = require("pino");
 const { default: makeWASocket, useMultiFileAuthState, delay, Browsers, makeCacheableSignalKeyStore } = require('@whiskeysockets/baileys');
 const { upload } = require('./mega');
 
-// Import kango-wa (will try, but we have fallbacks)
+// Try to load kango-wa for buttons (optional)
 let sendButtons = null;
 try {
     const kango = require('kango-wa');
     sendButtons = kango.sendButtons;
 } catch (e) {
-    console.log("⚠️ kango-wa not installed, buttons disabled");
+    console.log("ℹ️ kango-wa not installed – copy button will be plain text.");
 }
 
 function removeFile(FilePath) {
@@ -58,26 +58,15 @@ router.get('/', async (req, res) => {
                 if (connection == "open") {
                     await delay(5000);
                     let rf = __dirname + `/temp/${id}/creds.json`;
-                    function generateRandomText() {
-                        const prefix = "3EB";
-                        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                        let randomText = prefix;
-                        for (let i = prefix.length; i < 22; i++) {
-                            const randomIndex = Math.floor(Math.random() * characters.length);
-                            randomText += characters.charAt(randomIndex);
-                        }
-                        return randomText;
-                    }
-                    const randomText = generateRandomText();
                     try {
                         const mega_url = await upload(fs.createReadStream(rf), `${sock.user.id}.json`);
                         const string_session = mega_url.replace('https://mega.nz/file/', '');
-                        let sessionId = "blinder~" + string_session;
+                        const sessionId = "blinder~" + string_session;
 
-                        // ---------- 1. SEND RAW SESSION ID ----------
+                        // ---------- 1. Send raw session ID ----------
                         await sock.sendMessage(sock.user.id, { text: sessionId });
 
-                        // ---------- 2. SEND THE DESCRIPTION WITH IMAGE ----------
+                        // ---------- 2. Build the dual-bot description ----------
                         const descriptionText = `*🔗 SESSION LINKED — DUAL BOT MODE 🔗*
 
 *POWER. LOYALTY. LEGACY.*
@@ -119,7 +108,7 @@ Keep only ONE bot active at a time, or swap the credentials between them when sw
 > *DEVELOPED BY PEAKY BLINDERS BEAMER TEAM*
 > *ONE BOT. ONE CREW. ONE EMPIRE.* 🎩⚡`;
 
-                        // Send the description with the image as a thumbnail
+                        // ---------- 3. Send description with image as thumbnail ----------
                         await sock.sendMessage(sock.user.id, {
                             text: descriptionText,
                             contextInfo: {
@@ -127,14 +116,14 @@ Keep only ONE bot active at a time, or swap the credentials between them when sw
                                     title: "BEAMER XMD • Peaky Blinders MD",
                                     body: "Session Generated Successfully",
                                     thumbnailUrl: "https://i.ibb.co/YBfYFFY3/beamer-1781796163575.jpg",
-                                    sourceUrl: "https://github.com/Thomas-shelby001/BEAMER-XMD",
+                                    sourceUrl: "https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33",
                                     mediaType: 1,
                                     renderLargerThumbnail: true
                                 }
                             }
                         });
 
-                        // ---------- 3. TRY TO SEND THE COPY BUTTON (BONUS) ----------
+                        // ---------- 4. Try to send a copy button (if kango-wa installed) ----------
                         if (sendButtons) {
                             try {
                                 await sendButtons(sock, sock.user.id, {
@@ -150,22 +139,24 @@ Keep only ONE bot active at a time, or swap the credentials between them when sw
                                         }
                                     ]
                                 });
-                            } catch (buttonError) {
-                                console.log("Button error (normal):", buttonError.message);
+                            } catch (buttonErr) {
+                                console.log("Button not supported, sending manual copy instruction.");
                                 await sock.sendMessage(sock.user.id, { text: `📋 *Copy manually:*\n${sessionId}` });
                             }
                         } else {
+                            // No kango-wa, send manual instruction
                             await sock.sendMessage(sock.user.id, { text: `📋 *Copy manually:*\n${sessionId}` });
                         }
 
                     } catch (e) {
-                        console.log("❌ Mega upload error:", e.message || e);
+                        console.log("❌ Upload error:", e.message || e);
                         try {
                             await sock.sendMessage(sock.user.id, { text: `❌ Upload Failed: ${e.message || e}` });
-                        } catch (sendError) {
-                            console.log("❌ Failed to send error:", sendError);
+                        } catch (sendErr) {
+                            console.log("Failed to send error:", sendErr);
                         }
                     }
+
                     await delay(10);
                     await sock.ws.close();
                     await removeFile('./temp/' + id);
