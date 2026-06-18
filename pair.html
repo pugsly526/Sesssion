@@ -281,9 +281,46 @@
       color: var(--gold);
       letter-spacing: 2px;
       word-break: break-all;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: 0.3s;
+      display: inline-block;
+      border: 1px dashed rgba(212,175,55,0.2);
+    }
+
+    #pair .code-display:hover {
+      background: rgba(212,175,55,0.05);
+      border-color: var(--gold);
     }
 
     #pair .code-display span { color: #fff; }
+
+    .copy-btn {
+      margin-top: 10px;
+      padding: 8px 25px;
+      border: 2px solid var(--gold);
+      border-radius: 25px;
+      background: transparent;
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.3s;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .copy-btn:hover {
+      background: var(--gold);
+      color: var(--dark);
+      box-shadow: 0 0 30px rgba(212,175,55,0.3);
+    }
+
+    .copy-btn.copied {
+      background: #00d4ff;
+      border-color: #00d4ff;
+      color: var(--dark);
+    }
 
     .loader {
       display: inline-block;
@@ -418,6 +455,19 @@
     let submitBtn = document.getElementById("submit");
     let numberInput = document.getElementById("number");
 
+    // Copy function (from your previous pair.html)
+    async function CopyCode() {
+      let text = document.getElementById("copy").innerText;
+      let obj = document.getElementById("copy");
+      await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
+      obj.innerText = "✅ COPIED!";
+      obj.style = "color:#00d4ff;font-weight:bold";
+      setTimeout(() => {
+        obj.innerText = text;
+        obj.style = "color:gold;font-weight:bold";
+      }, 2000);
+    }
+
     numberInput.addEventListener("keypress", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
@@ -455,11 +505,9 @@
 
         pairDiv.innerHTML = `
           <div style="font-size:0.6rem;color:#666;text-transform:uppercase;letter-spacing:3px;margin-bottom:4px;">Your Pair Code</div>
-          <div class="code-display">CODE: <span>${code}</span></div>
-          <div style="margin-top:8px;font-size:0.7rem;color:#555;">
-            <i class="fas fa-clock"></i> Enter this code in WhatsApp
-          </div>
-          <div style="margin-top:6px;font-size:0.6rem;color:#444;">
+          <div class="code-display" id="copy" onclick="CopyCode()">CODE: <span>${code}</span></div>
+          <button class="copy-btn" onclick="CopyCode()"><i class="fas fa-copy"></i> Copy Code</button>
+          <div style="margin-top:8px;font-size:0.6rem;color:#555;">
             <span style="color:var(--gold);">🎩 Peaky</span> • <span style="color:#00d4ff;">⚡ Beamer</span>
           </div>
         `;
