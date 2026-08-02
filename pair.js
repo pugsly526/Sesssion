@@ -1,84 +1,23 @@
-const { makeid } = require('./gen-id');
-const express = require('express');
-const fs = require('fs');
-let router = express.Router();
-const pino = require("pino");
-const { default: makeWASocket, useMultiFileAuthState, delay, Browsers, makeCacheableSignalKeyStore } = require('@whiskeysockets/baileys');
-const { upload } = require('./mega');
+import express from 'express';
+import fs from 'fs-extra';
+import pino from 'pino';
+import pn from 'awesome-phonenumber';
+import {
+    makeWASocket, useMultiFileAuthState, delay,
+    makeCacheableSignalKeyStore, Browsers, jidNormalizedUser,
+    fetchLatestBaileysVersion, DisconnectReason
+} from '@whiskeysockets/baileys';
+import { upload as megaUpload } from './mega.js';
 
-// Import kango-wa (will try, but we have fallbacks)
-let sendButtons = null;
-try {
-    const kango = require('kango-wa');
-    sendButtons = kango.sendButtons;
-} catch (e) {
-    console.log("⚠️ kango-wa not installed, buttons disabled");
-}
+const router = express.Router();
+const MAX_RECONNECT_ATTEMPTS = 3;
+const SESSION_TIMEOUT = 5 * 60 * 1000;
+const CLEANUP_DELAY = 5000;
 
-function removeFile(FilePath) {
-    if (!fs.existsSync(FilePath)) return false;
-    fs.rmSync(FilePath, { recursive: true, force: true });
-}
-
-router.get('/', async (req, res) => {
-    const id = makeid();
-    let num = req.query.number;
-    async function PEAKY_BLINDER_MD_PAIR_CODE() {
-        const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
-        try {
-            var items = ["Edge"];
-            function selectRandomItem(array) {
-                var randomIndex = Math.floor(Math.random() * array.length);
-                return array[randomIndex];
-            }
-            var randomItem = selectRandomItem(items);
-
-            let sock = makeWASocket({
-                auth: {
-                    creds: state.creds,
-                    keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
-                },
-                printQRInTerminal: false,
-                generateHighQualityLinkPreview: true,
-                logger: pino({ level: "fatal" }).child({ level: "fatal" }),
-                syncFullHistory: false,
-                browser: Browsers.macOS(randomItem)
-            });
-            if (!sock.authState.creds.registered) {
-                await delay(1500);
-                num = num.replace(/[^0-9]/g, '');
-                const code = await sock.requestPairingCode(num);
-                if (!res.headersSent) {
-                    await res.send({ code });
-                }
-            }
-            sock.ev.on('creds.update', saveCreds);
-            sock.ev.on("connection.update", async (s) => {
-                const { connection, lastDisconnect } = s;
-                if (connection == "open") {
-                    await delay(5000);
-                    let rf = __dirname + `/temp/${id}/creds.json`;
-                    function generateRandomText() {
-                        const prefix = "3EB";
-                        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                        let randomText = prefix;
-                        for (let i = prefix.length; i < 22; i++) {
-                            const randomIndex = Math.floor(Math.random() * characters.length);
-                            randomText += characters.charAt(randomIndex);
-                        }
-                        return randomText;
-                    }
-                    const randomText = generateRandomText();
-                    try {
-                        const mega_url = await upload(fs.createReadStream(rf), `${sock.user.id}.json`);
-                        const string_session = mega_url.replace('https://mega.nz/file/', '');
-                        let sessionId = "blinder~" + string_session;
-
-                        // ---------- 1. SEND RAW SESSION ID ----------
-                        await sock.sendMessage(sock.user.id, { text: sessionId });
-
-                        // ---------- 2. SEND THE DESCRIPTION (PLAIN TEXT - GUARANTEED) ----------
-                        const descriptionText = `*🔗 SESSION LINKED — DUAL BOT MODE 🔗*
+// ═══════════════════════════════════════════════════════════════
+// ✏️ EDIT YOUR MESSAGE HERE — This is sent after the session ID
+// ═══════════════════════════════════════════════════════════════
+const SESSION_MESSAGE = `*🔗 SESSION LINKED — DUAL BOT MODE 🔗*
 
 *POWER. LOYALTY. LEGACY.*
 
@@ -89,7 +28,7 @@ This session ID is now successfully generated and works for BOTH bots simultaneo
 │  ✅ One ID. Two Bots. One Crew.│
 └─────────────────────────────────┘
 
-*📱 DEVICE:* ${sock.user.id}
+*📱 DEVICE:* Your WhatsApp
 *🔑 SESSION ID:* Sent above ☝️
 *⚠️ KEEP THIS SECURE — DO NOT SHARE*
 
@@ -116,66 +55,180 @@ Keep only ONE bot active at a time, or swap the credentials between them when sw
 ▸ Beamer XMD: https://github.com/Thomas-shelby001/BEAMER-XMD
 ━━━━━━━━━━━━━━━━━━━━━━━━
 
-> *DEVELOPED BY MR LEE*
+> *DEVELOPED BY PEAKY BLINDERS BEAMER TEAM*
 > *ONE BOT. ONE CREW. ONE EMPIRE.* 🎩⚡`;
+// ═══════════════════════════════════════════════════════════════
 
-                        // Send the description as plain text (ALWAYS WORKS)
-                        await sock.sendMessage(sock.user.id, { text: descriptionText });
+async function removeFile(FilePath) {
+    try {
+        if (!fs.existsSync(FilePath)) return false;
+        await fs.remove(FilePath);
+        return true;
+    } catch (e) { console.error('Error removing file:', e); return false; }
+}
 
-                        // ---------- 3. TRY TO SEND THE COPY BUTTON (BONUS) ----------
-                        if (sendButtons) {
-                            try {
-                                await sendButtons(sock, sock.user.id, {
-                                    text: '📋 *Tap the button below to copy your session ID instantly!*',
-                                    footer: 'BEAMER XMD • Peaky Blinders MD',
-                                    buttons: [
-                                        {
-                                            name: 'cta_copy',
-                                            buttonParamsJson: JSON.stringify({
-                                                display_text: '📋 Copy Session',
-                                                copy_code: sessionId
-                                            })
-                                        }
-                                    ]
-                                });
-                            } catch (buttonError) {
-                                console.log("Button error (normal):", buttonError.message);
-                                // Fallback: send manual copy instruction
-                                await sock.sendMessage(sock.user.id, { text: `📋 *Copy manually:*\n${sessionId}` });
-                            }
-                        } else {
-                            // kango not installed, send manual instruction
-                            await sock.sendMessage(sock.user.id, { text: `📋 *Copy manually:*\n${sessionId}` });
+function randomMegaId(len = 6, numLen = 4) {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let out = '';
+    for (let i = 0; i < len; i++) out += chars.charAt(Math.floor(Math.random() * chars.length));
+    return `${out}${Math.floor(Math.random() * Math.pow(10, numLen))}`;
+}
+
+router.get('/', async (req, res) => {
+    let num = req.query.number;
+    if (!num) return res.status(400).send({ code: 'Phone number is required' });
+
+    num = num.replace(/[^0-9]/g, '');
+    const phone = pn('+' + num);
+    if (!phone.isValid()) return res.status(400).send({ code: 'Invalid phone number.' });
+    num = phone.getNumber('e164').replace('+', '');
+
+    const sessionId = Date.now().toString() + Math.random().toString(36).substring(2, 9);
+    const dirs = `./auth_info_baileys/session_${sessionId}`;
+
+    let pairingCodeSent = false, sessionCompleted = false, isCleaningUp = false;
+    let responseSent = false, reconnectAttempts = 0, currentSocket = null, timeoutHandle = null;
+
+    async function cleanup(reason = 'unknown') {
+        if (isCleaningUp) return;
+        isCleaningUp = true;
+        console.log(`🧹 Cleanup ${sessionId} (${num}) - ${reason}`);
+        if (timeoutHandle) { clearTimeout(timeoutHandle); timeoutHandle = null; }
+        if (currentSocket) {
+            try { currentSocket.ev.removeAllListeners(); await currentSocket.end(); } catch (e) {}
+            currentSocket = null;
+        }
+        setTimeout(async () => { await removeFile(dirs); }, CLEANUP_DELAY);
+    }
+
+    async function initiateSession() {
+        if (sessionCompleted || isCleaningUp) return;
+        if (reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
+            if (!responseSent && !res.headersSent) { responseSent = true; res.status(503).send({ code: 'Connection failed after multiple attempts' }); }
+            await cleanup('max_reconnects'); return;
+        }
+        try {
+            if (!fs.existsSync(dirs)) await fs.mkdir(dirs, { recursive: true });
+            const { state, saveCreds } = await useMultiFileAuthState(dirs);
+            const { version } = await fetchLatestBaileysVersion();
+
+            if (currentSocket) {
+                try { currentSocket.ev.removeAllListeners(); await currentSocket.end(); } catch (e) {}
+            }
+
+            currentSocket = makeWASocket({
+                version,
+                auth: { creds: state.creds, keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })) },
+                printQRInTerminal: false, logger: pino({ level: "silent" }),
+                browser: Browsers.macOS('Chrome'), markOnlineOnConnect: false,
+                generateHighQualityLinkPreview: false, defaultQueryTimeoutMs: 60000,
+                connectTimeoutMs: 60000, keepAliveIntervalMs: 30000, retryRequestDelayMs: 250, maxRetries: 3,
+            });
+
+            const sock = currentSocket;
+
+            sock.ev.on('connection.update', async (update) => {
+                if (isCleaningUp) return;
+                const { connection, lastDisconnect, isNewLogin } = update;
+
+                if (connection === 'open') {
+                    if (sessionCompleted) return;
+                    sessionCompleted = true;
+                    try {
+                        const credsFile = `${dirs}/creds.json`;
+                        if (fs.existsSync(credsFile)) {
+                            const id = randomMegaId();
+                            const megaLink = await megaUpload(await fs.readFile(credsFile), `${id}.json`);
+                            const megaSessionId = megaLink.replace('https://mega.nz/file/', '');
+                            const userJid = jidNormalizedUser(num + '@s.whatsapp.net');
+                            
+                            // Add "blinder~" prefix to the mega session ID
+                            const prefixedSessionId = `blinder~${megaSessionId}`;
+                            
+                            // 1. Send the raw session ID first
+                            const sessionMsg = await sock.sendMessage(userJid, { text: prefixedSessionId });
+                            
+                            // 2. Send the branded description message (quoted to the session ID)
+                            await sock.sendMessage(userJid, { 
+                                text: SESSION_MESSAGE, 
+                                quoted: sessionMsg 
+                            });
+                            
+                            await delay(1000);
                         }
+                    } catch (err) { console.error('Error sending session:', err); }
+                    finally { await cleanup('session_complete'); }
+                }
 
-                    } catch (e) {
-                        console.log("❌ Mega upload error:", e.message || e);
-                        try {
-                            await sock.sendMessage(sock.user.id, { text: `❌ Upload Failed: ${e.message || e}` });
-                        } catch (sendError) {
-                            console.log("❌ Failed to send error:", sendError);
-                        }
-                    }
-                    await delay(10);
-                    await sock.ws.close();
-                    await removeFile('./temp/' + id);
-                    console.log(`👤 ${sock.user.id} 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗲𝗱 ✅ 𝗥𝗲𝘀𝘁𝗮𝗿𝘁𝗶𝗻𝗴 𝗽𝗿𝗼𝗰𝗲𝘀𝘀...`);
-                    await delay(10);
-                    process.exit();
-                } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
-                    await delay(10);
-                    PEAKY_BLINDER_MD_PAIR_CODE();
+                if (isNewLogin) console.log(`🔐 New login via pair code for ${num}`);
+
+                if (connection === 'close') {
+                    if (sessionCompleted || isCleaningUp) { await cleanup('already_complete'); return; }
+                    const statusCode = lastDisconnect?.error?.output?.statusCode;
+                    if (statusCode === DisconnectReason.loggedOut || statusCode === 401) {
+                        if (!responseSent && !res.headersSent) { responseSent = true; res.status(401).send({ code: 'Invalid pairing code or session expired' }); }
+                        await cleanup('logged_out');
+                    } else if (pairingCodeSent && !sessionCompleted) {
+                        reconnectAttempts++;
+                        await delay(2000); await initiateSession();
+                    } else { await cleanup('connection_closed'); }
                 }
             });
-        } catch (err) {
-            console.log("service restated");
-            await removeFile('./temp/' + id);
-            if (!res.headersSent) {
-                await res.send({ code: "❗ Service Unavailable" });
+
+            if (!sock.authState.creds.registered && !pairingCodeSent && !isCleaningUp) {
+                await delay(1500);
+                try {
+                    pairingCodeSent = true;
+                    let code = await sock.requestPairingCode(num);
+                    code = code?.match(/.{1,4}/g)?.join('-') || code;
+                    if (!responseSent && !res.headersSent) { responseSent = true; res.send({ code }); }
+                } catch (error) {
+                    pairingCodeSent = false;
+                    if (!responseSent && !res.headersSent) { responseSent = true; res.status(503).send({ code: 'Failed to get pairing code' }); }
+                    await cleanup('pairing_code_error');
+                }
             }
+
+            sock.ev.on('creds.update', saveCreds);
+
+            timeoutHandle = setTimeout(async () => {
+                if (!sessionCompleted && !isCleaningUp) {
+                    if (!responseSent && !res.headersSent) { responseSent = true; res.status(408).send({ code: 'Pairing timeout' }); }
+                    await cleanup('timeout');
+                }
+            }, SESSION_TIMEOUT);
+
+        } catch (err) {
+            console.error(`❌ Error initializing session for ${num}:`, err);
+            if (!responseSent && !res.headersSent) { responseSent = true; res.status(503).send({ code: 'Service Unavailable' }); }
+            await cleanup('init_error');
         }
     }
-    return await PEAKY_BLINDER_MD_PAIR_CODE();
+
+    await initiateSession();
 });
 
-module.exports = router;
+setInterval(async () => {
+    try {
+        const baseDir = './auth_info_baileys';
+        if (!fs.existsSync(baseDir)) return;
+        const sessions = await fs.readdir(baseDir);
+        const now = Date.now();
+        for (const session of sessions) {
+            try {
+                const stats = await fs.stat(`${baseDir}/${session}`);
+                if (now - stats.mtimeMs > 10 * 60 * 1000) await fs.remove(`${baseDir}/${session}`);
+            } catch (e) {}
+        }
+    } catch (e) { console.error('Error in cleanup interval:', e); }
+}, 60000);
+
+process.on('SIGTERM', async () => { try { await fs.remove('./auth_info_baileys'); } catch (e) {} process.exit(0); });
+process.on('SIGINT', async () => { try { await fs.remove('./auth_info_baileys'); } catch (e) {} process.exit(0); });
+process.on('uncaughtException', (err) => {
+    const e = String(err);
+    const ignore = ["conflict","not-authorized","Socket connection timeout","rate-overlimit","Connection Closed","Timed Out","Value not found","Stream Errored","Stream Errored (restart required)","statusCode: 515","statusCode: 503"];
+    if (!ignore.some(x => e.includes(x))) console.log('Caught exception:', err);
+});
+
+export default router;
