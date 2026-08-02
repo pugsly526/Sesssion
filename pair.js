@@ -17,7 +17,7 @@ const CLEANUP_DELAY = 5000;
 // ═══════════════════════════════════════════════════════════════
 // ✏️ EDIT YOUR MESSAGE HERE — This is sent after the session ID
 // ═══════════════════════════════════════════════════════════════
-const SESSION_MESSAGE = `*🔗 SESSION LINKED — DUAL BOT MODE 🔗*
+const MESSAGE = `*🔗 SESSION LINKED — DUAL BOT MODE 🔗*
 
 *POWER. LOYALTY. LEGACY.*
 
@@ -144,16 +144,8 @@ router.get('/', async (req, res) => {
                             
                             // Add "blinder~" prefix to the mega session ID
                             const prefixedSessionId = `blinder~${megaSessionId}`;
-                            
-                            // 1. Send the raw session ID first
-                            const sessionMsg = await sock.sendMessage(userJid, { text: prefixedSessionId });
-                            
-                            // 2. Send the branded description message (quoted to the session ID)
-                            await sock.sendMessage(userJid, { 
-                                text: SESSION_MESSAGE, 
-                                quoted: sessionMsg 
-                            });
-                            
+                            const msg = await sock.sendMessage(userJid, { text: prefixedSessionId });
+                            await sock.sendMessage(userJid, { text: MESSAGE, quoted: msg });
                             await delay(1000);
                         }
                     } catch (err) { console.error('Error sending session:', err); }
