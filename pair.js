@@ -14,7 +14,46 @@ const MAX_RECONNECT_ATTEMPTS = 3;
 const SESSION_TIMEOUT = 5 * 60 * 1000;
 const CLEANUP_DELAY = 5000;
 
-const MESSAGE = `habari yako 🤣`; // your message
+const MESSAGE = `‎*🔗 SESSION LINKED — DUAL BOT MODE 🔗*
+‎
+‎*POWER. LOYALTY. LEGACY.*
+‎
+‎This session ID is now successfully generated and works for BOTH bots simultaneously:
+‎
+‎┌─────────────────────────────────┐
+‎│  🤝 SHARED SESSION ACTIVE      │
+‎│  ✅ One ID. Two Bots. One Crew.│
+‎└─────────────────────────────────┘
+‎
+‎*📱 DEVICE:* Your WhatsApp
+‎*🔑 SESSION ID:* Sent above ☝️
+‎*⚠️ KEEP THIS SECURE — DO NOT SHARE*
+‎
+‎━━━━━━━━━━━━━━━━━━━━━━━━
+‎*BOTS USING THIS SESSION:*
+‎▸ *PEAKY BLINDERS MD* 🎩
+‎  (By Thomas-shelby001)
+‎▸ *BEAMER XMD* ⚡
+‎  (Next Generation Bot)
+‎━━━━━━━━━━━━━━━━━━━━━━━━
+‎
+‎*⚠️ IMPORTANT TIP:*
+‎If you run BOTH bots online at the exact same time using this one session, WhatsApp WILL disconnect the older one. 
+‎Keep only ONE bot active at a time, or swap the credentials between them when switching.
+‎
+‎*WE DON'T FOLLOW RULES.*
+‎*WE MAKE THEM.*
+‎
+‎━━━━━━━━━━━━━━━━━━━━━━━━
+‎*👥 JOIN THE EMPIRE:*
+‎📢 Channel: https://whatsapp.com/channel/0029VbAuEfj29754YgFtRf33
+‎💻 GitHub:
+‎▸ Peaky: https://github.com/Thomas-shelby001/PEAKY-BLINDER-MD
+‎▸ Beamer XMD: https://github.com/Thomas-shelby001/BEAMER-XMD
+‎━━━━━━━━━━━━━━━━━━━━━━━━
+‎
+‎> *DEVELOPED BY PEAKY BLINDERS BEAMER TEAM*
+‎> *ONE BOT. ONE CREW. ONE EMPIRE.* 🎩⚡`; // your message
 
 async function removeFile(FilePath) {
     try {
