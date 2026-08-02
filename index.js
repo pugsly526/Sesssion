@@ -1,33 +1,43 @@
-const express = require('express');
+import 'dotenv/config'
+
+import express from 'express';
+import bodyParser from 'body-parser';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+import qrRouter from './qr.js';
+import pairRouter from './pair.js';
+
 const app = express();
-const path = require('path');
-const bodyParser = require("body-parser");
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const PORT = process.env.PORT || 8000;
-let code = require('./pair');
-require('events').EventEmitter.defaultMaxListeners = 500;
 
-app.use('/code', code);
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'main.html'));
-});
-
-app.get('/pair', (req, res) => {
-  res.sendFile(path.join(__dirname, 'pair.html'));
-});
-
-app.get('/xbt', (req, res) => {
-  res.sendFile(path.join(__dirname, 'xbt.html'));
+import('events').then(events => {
+    events.EventEmitter.defaultMaxListeners = 500;
 });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(__dirname));
 
-app.listen(PORT, () => {
-  console.log(`
-Deployment Successful!
+app.use('/qr', qrRouter);
+app.use('/code', pairRouter);
 
-nebula-assassin-Server Running on http://localhost:` + PORT)
+app.use('/pair', async (req, res) => {
+    res.sendFile(path.join(__dirname, 'pair.html'));
+});
+app.use('/qrpage', (req, res) => {
+    res.sendFile(path.join(__dirname, 'qr.html'));
+});
+app.use('/', async (req, res) => {
+    res.sendFile(path.join(__dirname, 'main.html'));
 });
 
-module.exports = app;
+app.listen(PORT, () => {
+    console.log(`🚀 Session id running on http://localhost:${PORT}`);
+});
+
+export default app;
