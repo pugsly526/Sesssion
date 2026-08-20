@@ -1,20 +1,60 @@
 import { Storage } from 'megajs';
 
 const auth = {
-    email: process.env.MEGA_EMAIL || 'johndoelee01@gmail.com',
-    password: process.env.MEGA_PASSWORD || 'sanglee9146118',
-    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246'
+    // ================================
+    // ADD YOUR MEGA EMAIL HERE
+    // ================================
+    email: 'YOUR_MEGA_EMAIL',
+
+    // ================================
+    // ADD YOUR MEGA PASSWORD HERE
+    // ================================
+    password: 'YOUR_MEGA_PASSWORD',
+
+    userAgent:
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/42.0.2311.135 Safari/537.36 Edge/12.246'
 };
 
 export const upload = async (data, name) => {
-    if (typeof data === 'string') data = Buffer.from(data);
+    if (!auth.email || !auth.password) {
+        throw new Error('MEGA email and password are required');
+    }
 
-    const storage = await new Storage({ ...auth }).ready;
+    if (typeof data === 'string') {
+        data = Buffer.from(data);
+    }
+
+    if (!Buffer.isBuffer(data)) {
+        throw new TypeError('MEGA upload data must be a Buffer or string');
+    }
+
+    let storage;
+
     try {
-        const file = await storage.upload({ name, size: data.length }, data).complete;
+        storage = await new Storage(auth).ready;
+
+        const file = await storage
+            .upload(
+                {
+                    name,
+                    size: data.length
+                },
+                data
+            )
+            .complete;
+
         const url = await file.link();
+
+        if (!url) {
+            throw new Error('Failed to generate MEGA file link');
+        }
+
         return url;
     } finally {
-        storage.close();
+        if (storage) {
+            try {
+                storage.close();
+            } catch {}
+        }
     }
 };
