@@ -9,7 +9,7 @@ const auth = {
     // ================================
     // ADD YOUR MEGA PASSWORD HERE
     // ================================
-    password: 'sanglee9146118',
+    password: 'sanglee4691',
 
     userAgent:
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/42.0.2311.135 Safari/537.36 Edge/12.246'
