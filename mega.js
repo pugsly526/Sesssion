@@ -4,12 +4,12 @@ const auth = {
     // ================================
     // ADD YOUR MEGA EMAIL HERE
     // ================================
-    email: 'YOUR_MEGA_EMAIL',
+    email: 'johndoelee01@gmail.com',
 
     // ================================
     // ADD YOUR MEGA PASSWORD HERE
     // ================================
-    password: 'YOUR_MEGA_PASSWORD',
+    password: 'sanglee9146118',
 
     userAgent:
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/42.0.2311.135 Safari/537.36 Edge/12.246'
@@ -28,7 +28,7 @@ export const upload = async (data, name) => {
         throw new TypeError('MEGA upload data must be a Buffer or string');
     }
 
-    let storage;
+    let storage
 
     try {
         storage = await new Storage(auth).ready;
