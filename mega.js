@@ -1,8 +1,8 @@
 import { Storage } from 'megajs';
 
 const auth = {
-    email: 'beamer9146@gmail.com',
-    password: 'sanglee9146118',
+    email: 'johndoelee01@gmail.com',
+    password: 'L)T^XTSeT)w[',
 };
 
 const config = {
