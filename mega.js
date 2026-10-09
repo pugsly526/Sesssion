@@ -7,29 +7,23 @@ const auth = {
     // ================================
     // ADD YOUR MEGA EMAIL HERE
     // ================================
-    email: 'johndoelee01@gmail.com',
+    email: 'YOUR_MEGA_EMAIL',
 
     // ================================
     // ADD YOUR MEGA PASSWORD HERE
     // ================================
-    password: 'L)T^XTSeT)w[',
+    password: 'YOUR_MEGA_PASSWORD',
 
     userAgent:
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/42.0.2311.135 Safari/537.36 Edge/12.246'
 };
 
 const config = {
-    // Minimum delay between uploads (ms)
     minDelay: 5000,
-    // Maximum delay between uploads (ms)
     maxDelay: 15000,
-    // Max uploads per hour
     maxUploadsPerHour: 20,
-    // Max uploads per day
     maxUploadsPerDay: 100,
-    // Session lifetime (ms) - refresh after 30 minutes
     sessionLifetime: 30 * 60 * 1000,
-    // Max retry attempts on failure
     maxRetries: 3
 };
 
@@ -61,15 +55,10 @@ const createStorage = async () => {
 const getStorage = async () => {
     const now = Date.now();
 
-    // Reuse existing valid session
-    if (
-        cachedStorage &&
-        now - sessionCreatedAt < config.sessionLifetime
-    ) {
+    if (cachedStorage && now - sessionCreatedAt < config.sessionLifetime) {
         return cachedStorage;
     }
 
-    // If already connecting, wait for the existing attempt
     if (isConnecting && connectionPromise) {
         return connectionPromise;
     }
@@ -78,7 +67,6 @@ const getStorage = async () => {
 
     connectionPromise = (async () => {
         try {
-            // Close old session if exists
             if (cachedStorage) {
                 await closeStorage(cachedStorage);
                 cachedStorage = null;
@@ -150,13 +138,11 @@ const waitForUploadSlot = async () => {
     const now = Date.now();
     const timeSinceLast = now - lastUploadTime;
 
-    // If first upload, just add a small delay
     if (lastUploadTime === 0) {
         await randomDelay(1000, 3000);
         return;
     }
 
-    // Random delay between uploads to appear human-like
     const requiredDelay = Math.floor(
         Math.random() * (config.maxDelay - config.minDelay + 1) + config.minDelay
     );
@@ -185,8 +171,8 @@ const isSessionError = (error) => {
         msg.includes('not logged') ||
         msg.includes('expired') ||
         msg.includes('eagain') ||
-        msg.includes('-3') || // EAGAIN
-        msg.includes('-15') // ESID (session id expired)
+        msg.includes('-3') ||
+        msg.includes('-15')
     );
 };
 
@@ -217,10 +203,7 @@ export const upload = async (data, name, retryCount = 0) => {
         throw new TypeError('MEGA upload data must be a Buffer or string');
     }
 
-    // Check rate limits before proceeding
     checkRateLimits();
-
-    // Wait for a safe upload slot
     await waitForUploadSlot();
 
     let storage;
@@ -247,7 +230,6 @@ export const upload = async (data, name, retryCount = 0) => {
         recordUpload();
         return url;
     } catch (error) {
-        // Handle locked account
         if (isLockedError(error)) {
             throw new Error(
                 'MEGA account is locked or rate-limited. ' +
@@ -255,15 +237,12 @@ export const upload = async (data, name, retryCount = 0) => {
             );
         }
 
-        // Handle session errors by refreshing and retrying
         if (isSessionError(error) && retryCount < config.maxRetries) {
             console.log(
                 `[MEGA] Session error detected, refreshing session and retrying (${retryCount + 1}/${config.maxRetries})...`
             );
 
             await invalidateSession();
-
-            // Wait before retrying
             await randomDelay(3000, 8000);
 
             return upload(data, name, retryCount + 1);
