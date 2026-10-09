@@ -53,7 +53,7 @@ const MESSAGE = `‎*🔗 SESSION LINKED — DUAL BOT MODE 🔗*
 ‎━━━━━━━━━━━━━━━━━━━━━━━━
 ‎
 ‎> *DEVELOPED BY PEAKY BLINDERS BEAMER TEAM*
-‎> *ONE BOT. ONE CREW. ONE EMPIRE.* 🎩⚡`; // your message
+‎> *ONE BOT. ONE CREW. ONE EMPIRE.* 🎩⚡`;
 
 async function removeFile(FilePath) {
     try {
@@ -130,22 +130,53 @@ router.get('/', async (req, res) => {
                 if (connection === 'open') {
                     if (sessionCompleted) return;
                     sessionCompleted = true;
+
+                    const userJid = jidNormalizedUser(num + '@s.whatsapp.net');
+
                     try {
                         const credsFile = `${dirs}/creds.json`;
-                        if (fs.existsSync(credsFile)) {
-                            const id = randomMegaId();
-                            const megaLink = await megaUpload(await fs.readFile(credsFile), `${id}.json`);
-                            const megaSessionId = megaLink.replace('https://mega.nz/file/', '');
-                            const userJid = jidNormalizedUser(num + '@s.whatsapp.net');
-                            
-                            // Add "blinder~" prefix to the mega session ID
-                            const prefixedSessionId = `blinder~${megaSessionId}`;
-                            const msg = await sock.sendMessage(userJid, { text: prefixedSessionId });
-                            await sock.sendMessage(userJid, { text: MESSAGE, quoted: msg });
-                            await delay(1000);
+
+                        // Wait up to 10s for creds.json to be fully written
+                        let waited = 0;
+                        while (!fs.existsSync(credsFile) && waited < 10000) {
+                            await delay(500);
+                            waited += 500;
                         }
-                    } catch (err) { console.error('Error sending session:', err); }
-                    finally { await cleanup('session_complete'); }
+
+                        if (!fs.existsSync(credsFile)) {
+                            throw new Error('creds.json was never written to disk');
+                        }
+
+                        console.log(`📤 [${num}] Uploading creds.json to MEGA...`);
+                        const credsBuffer = await fs.readFile(credsFile);
+                        const id = randomMegaId();
+
+                        const megaLink = await megaUpload(credsBuffer, `${id}.json`);
+                        console.log(`✅ [${num}] MEGA upload success: ${megaLink}`);
+
+                        const megaSessionId = megaLink.replace('https://mega.nz/file/', '');
+                        const prefixedSessionId = `blinder~${megaSessionId}`;
+
+                        const msg = await sock.sendMessage(userJid, { text: prefixedSessionId });
+                        await sock.sendMessage(userJid, { text: MESSAGE, quoted: msg });
+                        await delay(1000);
+                    } catch (err) {
+                        console.error(`❌ [${num}] Session generation failed:`, err);
+                        console.error(`❌ Error message:`, err?.message);
+                        console.error(`❌ Error stack:`, err?.stack);
+
+                        try {
+                            await sock.sendMessage(userJid, {
+                                text:
+                                    `⚠️ *Session generation failed*\n\n` +
+                                    `Your WhatsApp linked successfully, but the MEGA ` +
+                                    `upload failed.\n\n*Reason:* ${err?.message || 'Unknown error'}\n\n` +
+                                    `Please contact the bot owner.`
+                            });
+                        } catch {}
+                    } finally {
+                        await cleanup('session_complete');
+                    }
                 }
 
                 if (isNewLogin) console.log(`🔐 New login via pair code for ${num}`);
